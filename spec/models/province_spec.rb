@@ -5,6 +5,9 @@ RSpec.describe Province, type: :model do
 
   let(:params){ { name: 'Munich', abbreviation: 'MUN', supply_center: true } }
 
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:abbreviation) }
+
   it 'returns the province name' do
     expect(subject.name).to eq 'Munich'
   end
