@@ -1,5 +1,6 @@
 class Province < ApplicationRecord
   has_many :province_links
+  belongs_to :map
 
   validates :name, :abbreviation, presence: :true
 
