@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Province, type: :model do
   subject { described_class.new(params) }
-
-  let(:params){ { name: 'Munich', abbreviation: 'MUN', supply_center: true } }
+  
+  let(:map) { Map.new(name:'Classic') }
+  let(:params) { { name: 'Munich', abbreviation: 'MUN', supply_center: true, map: map } }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:abbreviation) }
@@ -21,7 +22,7 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there is a province link' do
-    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR') }
+    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
 
     before { ProvinceLink.create(province: subject, links_to: province.id) }
 
@@ -31,7 +32,7 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there is no province link' do
-    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR') }
+    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
 
     it 'is not adjacent to a non-linked province' do
       expect(subject.adjacent?(province)).to eq false
@@ -39,8 +40,8 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there are multiple province links' do
-    let(:province_1){ Province.create(name: 'Tyrolia', abbreviation: 'TYR') }
-    let(:province_2){ Province.create(name: 'Black Sea', abbreviation: 'BLA') }
+    let(:province_1){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
+    let(:province_2){ Province.create(name: 'Black Sea', abbreviation: 'BLA', map: map) }
 
     before do
       ProvinceLink.create(province: subject, links_to: province_1.id)
