@@ -1,17 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Unit, type: :model do
-  subject { described_class.new(params) }
+  subject { described_class.new(unit_type: 'Army', province: province) }
 
-  let(:province) { Province.new(name: 'Munich', abbreviation: 'MUN', supply_center: true) }
-  let(:target_province) { Province.new(name: 'Tyrolia', abbreviation: 'TYR', supply_center: false) }
-  let(:params) { { unit_type: 'Army', province: province } }
+  let(:province) { build(:province) }
+  let(:target_province) { build(:province) }
 
+  it 'returns the unit type' do
+    expect(subject.unit_type).to eq 'Army'
+  end
+  
   it 'returns the unit province' do
-    expect(subject.province.name).to eq 'Munich'
+    expect(subject.province).to eq province
   end
 
   it 'moves to a province' do
     expect { subject.move(target_province) }.to change(subject, :province)
+      .from(province).to(target_province)
   end
 end

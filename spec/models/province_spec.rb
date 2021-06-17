@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Province, type: :model do
-  subject { described_class.new(params) }
-  
-  let(:map) { Map.new(name:'Classic') }
-  let(:params) { { name: 'Munich', abbreviation: 'MUN', supply_center: true, map: map } }
+  subject { described_class.new(name: 'Munich', abbreviation: 'MUN', supply_center: true) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:abbreviation) }
@@ -22,9 +19,9 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there is a province link' do
-    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
+    let(:province){ create(:province) }
 
-    before { ProvinceLink.create(province: subject, links_to: province.id) }
+    before { create(:province_link, province: subject, links_to: province) }
 
     it 'is adjacent to a linked province' do
       expect(subject.adjacent?(province)).to eq true
@@ -32,7 +29,7 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there is no province link' do
-    let(:province){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
+    let(:province) { create(:province) }
 
     it 'is not adjacent to a non-linked province' do
       expect(subject.adjacent?(province)).to eq false
@@ -40,12 +37,12 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there are multiple province links' do
-    let(:province_1){ Province.create(name: 'Tyrolia', abbreviation: 'TYR', map: map) }
-    let(:province_2){ Province.create(name: 'Black Sea', abbreviation: 'BLA', map: map) }
+    let(:province_1){ create(:province) }
+    let(:province_2){ create(:province) }
 
     before do
-      ProvinceLink.create(province: subject, links_to: province_1.id)
-      ProvinceLink.create(province: province_1, links_to: province_2.id)
+      create(:province_link, province: subject, links_to: province_1)
+      create(:province_link, province: province_1, links_to: province_2)
     end
 
     it 'all the links are correct' do
