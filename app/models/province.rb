@@ -1,5 +1,6 @@
 class Province < ApplicationRecord
-  has_many :province_links
+  has_one :province_link
+  has_one :province_link, class_name: 'ProvinceLink', foreign_key: :links_to
   belongs_to :map
 
   validates :name, :abbreviation, presence: :true
