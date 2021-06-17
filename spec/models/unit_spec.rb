@@ -18,4 +18,10 @@ RSpec.describe Unit, type: :model do
     expect { subject.move(target_province) }.to change(subject, :province)
       .from(province).to(target_province)
   end
+
+  it 'assigns a move order' do
+    target_province = create(:province)
+    expect { subject.assign_move_order(target_province) }.to change(Order, :count).by(1)
+    expect(Order.last).to have_attributes(unit: subject, target_province: target_province)
+  end
 end
