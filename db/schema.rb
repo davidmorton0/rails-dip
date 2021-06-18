@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_17_205526) do
+ActiveRecord::Schema.define(version: 2021_06_18_175234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,10 @@ ActiveRecord::Schema.define(version: 2021_06_17_205526) do
     t.bigint "unit_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "year"
+    t.string "season"
+    t.integer "game"
+    t.boolean "success"
     t.index ["unit_id"], name: "index_orders_on_unit_id"
   end
 

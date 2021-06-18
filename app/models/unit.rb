@@ -6,7 +6,14 @@ class Unit < ApplicationRecord
     self.update(province: target_province)
   end
 
-  def assign_move_order(target_province)
-    Order.create(order_type: 'Move', target_province: target_province, unit: self)
+  def assign_move_order(target_province, order_details)
+    Order.create(
+      order_type: 'Move',
+      target_province: target_province,
+      unit: self,
+      game: order_details[:game],
+      season: order_details[:season],
+      year: order_details[:year]
+    )
   end
 end
