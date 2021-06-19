@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_175234) do
+ActiveRecord::Schema.define(version: 2021_06_19_193517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_06_18_175234) do
     t.string "season"
     t.integer "game"
     t.boolean "success"
+    t.string "fail_reason"
     t.index ["unit_id"], name: "index_orders_on_unit_id"
   end
 
@@ -48,6 +49,7 @@ ActiveRecord::Schema.define(version: 2021_06_18_175234) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "supply_center"
     t.bigint "map_id", null: false
+    t.string "province_type"
     t.index ["map_id"], name: "index_provinces_on_map_id"
   end
 

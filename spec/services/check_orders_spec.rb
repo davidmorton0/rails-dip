@@ -21,6 +21,7 @@ RSpec.describe CheckOrders do
           subject.call
           order.reload
         end.to change { order.success }.to(true)
+        expect(order.fail_reason).to eq(nil)
       end
     end
 
@@ -30,6 +31,7 @@ RSpec.describe CheckOrders do
           subject.call
           order.reload
         end.to change { order.success }.to(false)
+           .and(change(order, :fail_reason).to('Target province not adjacent'))
       end
     end
   end
