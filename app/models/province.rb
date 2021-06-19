@@ -4,6 +4,7 @@ class Province < ApplicationRecord
   belongs_to :map
 
   validates :name, :abbreviation, presence: :true
+  validates :province_type, inclusion: { in: %w[Coastal Inland Water] }
 
   def adjacent?(province)
     ProvinceLink.where(province: self, links_to: province.id).any? ||
