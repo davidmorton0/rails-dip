@@ -5,6 +5,7 @@ RSpec.describe Province, type: :model do
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:abbreviation) }
+  it { is_expected.to validate_inclusion_of(:province_type).in_array(%w[Coastal Inland Water]) }
 
   it 'returns the province name' do
     expect(subject.name).to eq 'Munich'
