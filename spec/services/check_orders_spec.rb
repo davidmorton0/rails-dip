@@ -34,6 +34,22 @@ RSpec.describe CheckOrders do
            .and(change(order, :fail_reason).to('Target province not adjacent'))
       end
     end
+
+    context 'when the target province is water and the unit is an Army' do
+
+      before { create(:province_link, province: province_1, links_to: province_2) }
+
+      it 'changes the order to failed' do
+        order.unit.update(unit_type: 'Army')
+        order.target_province.update(province_type: 'Water')
+
+        expect do
+          subject.call
+          order.reload
+        end.to change { order.success }.to(false)
+           .and(change(order, :fail_reason).to('Army cannot move to Water province'))
+      end
+    end
   end
 
 end
