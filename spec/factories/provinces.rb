@@ -4,5 +4,6 @@ FactoryBot.define do
     abbreviation  { 'MUN' }
     supply_center { true }
     map { build(:map) }
+    province_type { 'Inland' }
   end
 end

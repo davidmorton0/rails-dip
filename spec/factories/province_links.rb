@@ -1,9 +1,6 @@
 FactoryBot.define do
   factory :province_link do
     province { build(:province) }
-    
-    after(:build) do |province_link|
-      province_link.links_to ||= build_stubbed(:province)
-    end
+    links_to { build(:province) }
   end
 end
