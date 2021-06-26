@@ -177,6 +177,12 @@ Rails/Delegate:
   Description: 'Prefer delegate method for delegations.'
   Enabled: false
 
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
 # Bundler Cops
 
 Bundler/OrderedGems:
@@ -188,4 +194,13 @@ RSpec/NamedSubject:
   Enabled: false
 
 RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/ExampleLength:
+  Max: 20
+
+RSpec/FilePath:
   Enabled: false
