@@ -3,6 +3,7 @@
   abbreviation: ADR
   supply_center: false
   province_type: Water
+  linked_to: ['TRI', 'ALB', 'ION', 'APU', 'VEN']
 - name: Aegean Sea
   abbreviation: AEG
   supply_center: false

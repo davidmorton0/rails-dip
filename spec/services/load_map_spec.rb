@@ -1,31 +1,47 @@
 require 'rails_helper'
 
 RSpec.describe LoadMap do
-  subject { described_class.new(map: 'classic') }
+  subject { described_class.new(**params) }
 
-  it 'loads a map', :aggregate_failures do
-    expect { subject }.to change(Map, :count).by(1)
+  let(:params) { {} }
 
-    expect(Map.first.name).to eq('Classic')
+  context 'when no map is specified' do
+    it 'loads the default map', :aggregate_failures do
+      expect { subject }.to change(Map, :count).by(1)
+
+      expect(Map.first.name).to eq('Classic')
+    end
   end
 
-  it 'loads a province', :aggregate_failures do
-    expect { subject }.to change(Province, :count).by(75)
+  context 'when the classic map is loaded' do
+    let(:params) { { map: 'classic' } }
 
-    water_provinces = Province.where(province_type: 'Water')
-    expect(water_provinces.count).to eq 19
-    coastal_provinces = Province.where(province_type: 'Coastal')
-    expect(coastal_provinces.count).to eq 42
-    inland_provinces = Province.where(province_type: 'Inland')
-    expect(inland_provinces.count).to eq 14
+    it 'creates all the provinces' do
+      expect { subject }.to change(Province, :count).by(75)
+    end
 
-    munich = Province.find_by(abbreviation: 'MUN')
+    it 'creates a provinces with the correct attributes' do
+      subject
 
-    expect(munich).to have_attributes(
-      name: 'Munich',
-      abbreviation: 'MUN',
-      supply_center: true,
-      province_type: 'Inland'
-    )
+      expect(Province.find_by(abbreviation: 'MUN')).to have_attributes(
+        name: 'Munich',
+        abbreviation: 'MUN',
+        supply_center: true,
+        province_type: 'Inland'
+      )
+    end
+
+    it 'creates links between provinces' do
+      subject
+
+      province = Province.find_by(abbreviation: 'ADR')
+      linked_provinces_abbreviations = %w[TRI ALB ION APU VEN]
+
+      linked_provinces_abbreviations.each do |linked_province|
+        expect(province.adjacent?(Province.find_by(abbreviation: linked_province))).to eq true
+      end
+      
+
+    end
   end
 end
