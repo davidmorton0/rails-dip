@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Province, type: :model do
@@ -15,12 +17,12 @@ RSpec.describe Province, type: :model do
     expect(subject.abbreviation).to eq 'MUN'
   end
 
-  it 'returns the province abbreviation' do
+  it 'returns the supply center' do
     expect(subject.supply_center?).to eq true
   end
 
   context 'when there is a province link' do
-    let(:province){ create(:province) }
+    let(:province) { create(:province) }
 
     before { create(:province_link, province: subject, links_to: province) }
 
@@ -38,21 +40,21 @@ RSpec.describe Province, type: :model do
   end
 
   context 'when there are multiple province links' do
-    let(:province_1){ create(:province) }
-    let(:province_2){ create(:province) }
+    let(:province1) { create(:province) }
+    let(:province2) { create(:province) }
 
     before do
-      create(:province_link, province: subject, links_to: province_1)
-      create(:province_link, province: province_1, links_to: province_2)
+      create(:province_link, province: subject, links_to: province1)
+      create(:province_link, province: province1, links_to: province2)
     end
 
     it 'all the links are correct' do
-      expect(subject.adjacent?(province_1)).to eq true
-      expect(subject.adjacent?(province_2)).to eq false
-      expect(province_1.adjacent?(subject)).to eq true
-      expect(province_1.adjacent?(province_2)).to eq true
-      expect(province_2.adjacent?(subject)).to eq false
-      expect(province_2.adjacent?(province_1)).to eq true
+      expect(subject.adjacent?(province1)).to eq true
+      expect(subject.adjacent?(province2)).to eq false
+      expect(province1.adjacent?(subject)).to eq true
+      expect(province1.adjacent?(province2)).to eq true
+      expect(province2.adjacent?(subject)).to eq false
+      expect(province2.adjacent?(province1)).to eq true
     end
   end
 end

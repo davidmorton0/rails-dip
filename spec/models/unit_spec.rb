@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Unit, type: :model do
@@ -9,7 +11,7 @@ RSpec.describe Unit, type: :model do
   it 'returns the unit type' do
     expect(subject.unit_type).to eq 'Army'
   end
-  
+
   it 'returns the unit province' do
     expect(subject.province).to eq province
   end
