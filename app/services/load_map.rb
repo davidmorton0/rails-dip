@@ -11,7 +11,7 @@ class LoadMap
     file = File.join(Dir.pwd, '/lib/maps/classic/provinces.yml')
     provinces = YAML.load_file(file)
     provinces.each do |province|
-      province.merge!(map: Map.first)
+      province[:map] = Map.first
       p = Province.new(province.except('linked_to'))
       raise "Invalid Province #{p.name} reason: #{p.errors.errors}" unless p.valid?
 
