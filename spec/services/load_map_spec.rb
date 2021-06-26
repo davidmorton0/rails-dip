@@ -27,7 +27,7 @@ RSpec.describe LoadMap do
         name: 'Munich',
         abbreviation: 'MUN',
         supply_center: true,
-        province_type: 'Inland'
+        province_type: 'Inland',
       )
     end
 
@@ -40,8 +40,6 @@ RSpec.describe LoadMap do
       linked_provinces_abbreviations.each do |linked_province|
         expect(province.adjacent?(Province.find_by(abbreviation: linked_province))).to eq true
       end
-      
-
     end
   end
 end
