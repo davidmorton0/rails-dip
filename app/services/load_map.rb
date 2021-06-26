@@ -12,14 +12,14 @@ class LoadMap
     provinces = YAML.load_file(file)
     provinces.each do |province|
       province.merge!(map: Map.first)
-      p = Province.new(province.except("linked_to"))
+      p = Province.new(province.except('linked_to'))
       raise "Invalid Province #{p.name} reason: #{p.errors.errors}" unless p.valid?
 
       p.save
     end
     provinces.each do |province|
-      p = Province.find_by(abbreviation: province["abbreviation"])
-      create_province_links(p, province["linked_to"]) if province["linked_to"]
+      p = Province.find_by(abbreviation: province['abbreviation'])
+      create_province_links(p, province['linked_to']) if province['linked_to']
     end
   end
 
