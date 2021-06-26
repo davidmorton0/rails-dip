@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateProvinceLinks < ActiveRecord::Migration[6.1]
   def change
     create_table :province_links do |t|
