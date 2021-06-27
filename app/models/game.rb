@@ -1,8 +1,10 @@
-class Game < ApplicationRecord
-  belongs_to :map
+# frozen_string_literal: true
 
-  validates :map, :year, presence: true
+class Game < ApplicationRecord
+  has_one :map
+
   validates :season, inclusion: { in: %w[Spring Autumn Winter] }
+  validates :year, presence: true
 
   def process_turn
     self.season = next_season(season)
