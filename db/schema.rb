@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_073445) do
+ActiveRecord::Schema.define(version: 2021_06_28_213303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2021_06_27_073445) do
     t.index ["unit_id"], name: "index_orders_on_unit_id"
   end
 
+  create_table "players", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.string "country"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_players_on_game_id"
+  end
+
   create_table "province_links", force: :cascade do |t|
     t.integer "province_id"
     t.integer "links_to"
@@ -71,5 +79,6 @@ ActiveRecord::Schema.define(version: 2021_06_27_073445) do
   end
 
   add_foreign_key "maps", "games"
+  add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
 end
