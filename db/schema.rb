@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_213303) do
+ActiveRecord::Schema.define(version: 2021_06_28_222103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,15 +33,15 @@ ActiveRecord::Schema.define(version: 2021_06_28_213303) do
   create_table "orders", force: :cascade do |t|
     t.string "order_type"
     t.integer "target_province"
-    t.bigint "unit_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "year"
     t.string "season"
-    t.integer "game"
     t.boolean "success"
     t.string "fail_reason"
-    t.index ["unit_id"], name: "index_orders_on_unit_id"
+    t.bigint "player_id"
+    t.integer "current_province"
+    t.index ["player_id"], name: "index_orders_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_213303) do
   end
 
   add_foreign_key "maps", "games"
+  add_foreign_key "orders", "players"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
 end

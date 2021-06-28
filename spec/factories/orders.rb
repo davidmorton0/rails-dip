@@ -3,10 +3,10 @@
 FactoryBot.define do
   factory :order do
     order_type { 'Move' }
+    current_province { build(:province) }
     target_province { build(:province) }
-    unit { build(:unit) }
     year { 1901 }
     season { 'Spring' }
-    game { 1 }
+    player { build(:player) }
   end
 end
