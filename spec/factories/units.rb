@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :unit do
     unit_type { 'Army' }
     province { build(:province) }
-    game { build(:game) }
+    player { build(:player) }
   end
 end
