@@ -2,20 +2,22 @@
 
 class CheckOrders
   def initialize(game:, year:, season:)
-    @orders = Order.where(game: game, year: year, season: season)
+    @players = Player.where(game: game)
+    @orders = Order.where(player: players, year: year, season: season)
   end
 
   def call
     orders.each do |order|
-      result = provinces_adjacent?(order.unit.province, order.target_province) &&
-        correct_province_type?(order.unit.unit_type, order.target_province.province_type)
+      unit = Unit.find_by(province: order.current_province)
+      result = provinces_adjacent?(unit.province, order.target_province) &&
+        correct_province_type?(unit.unit_type, order.target_province.province_type)
       order.update(success: result, fail_reason: @fail_reasons)
     end
   end
 
   private
 
-  attr_reader :orders
+  attr_reader :orders, :players
 
   def provinces_adjacent?(province1, province2)
     if province1.adjacent?(province2)

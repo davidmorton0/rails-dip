@@ -5,17 +5,27 @@ require 'rails_helper'
 RSpec.describe CheckOrders do
   subject { described_class.new(**turn_details) }
 
-  let(:turn_details) { { game: 1, season: 'Spring', year: 1901 } }
+  let(:turn_details) { { game: game, season: 'Spring', year: 1901 } }
+  let(:game) { create(:game) }
+  let(:player) { create(:player, game: game) }
   let(:province1) { create(:province) }
-  let(:province2) { create(:province) }
+  let(:province2) { create(:province, abbreviation: 'RUH') }
   let(:unit) { create(:unit, province: province1) }
-  let(:order) { create(:order, unit: unit, target_province: province2, **turn_details) }
+  let(:order) { create(:order, current_province: province1, target_province: province2, **order_details) }
+  let(:order_details) { { player: player, season: 'Spring', year: 1901 } }
+
+  before do
+    order
+    unit
+  end
 
   context 'when a move order is given' do
     let(:orders) { [order] }
 
     context 'when the order is valid' do
-      before { create(:province_link, province: province1, links_to: province2) }
+      before do
+        create(:province_link, province: province1, links_to: province2)
+      end
 
       it 'changes the order to success' do
         expect do
