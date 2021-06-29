@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.string "unit_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "game_id"
-    t.index ["game_id"], name: "index_units_on_game_id"
+    t.bigint "player_id"
+    t.index ["player_id"], name: "index_units_on_player_id"
     t.index ["province_id"], name: "index_units_on_province_id"
   end
 

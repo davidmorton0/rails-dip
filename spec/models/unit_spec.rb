@@ -10,7 +10,7 @@ RSpec.describe Unit, type: :model do
 
   it { is_expected.to validate_presence_of(:province) }
   it { is_expected.to validate_presence_of(:unit_type) }
-  it { is_expected.to validate_presence_of(:game) }
+  it { is_expected.to validate_presence_of(:player) }
 
   it 'moves to a province' do
     expect { subject.move(target_province) }.to change(subject, :province)
