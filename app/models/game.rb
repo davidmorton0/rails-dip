@@ -3,6 +3,7 @@
 class Game < ApplicationRecord
   has_one :map
   has_many :players
+  has_many :units
 
   validates :season, inclusion: { in: %w[Spring Autumn Winter] }
   validates :year, presence: true
