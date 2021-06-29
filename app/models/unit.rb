@@ -9,5 +9,4 @@ class Unit < ApplicationRecord
   def move(target_province)
     update(province: target_province)
   end
-
 end
