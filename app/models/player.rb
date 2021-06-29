@@ -1,6 +1,7 @@
 class Player < ApplicationRecord
   belongs_to :game
   has_many :orders
+  has_many :units
 
   validates :country, :game, presence: true
 
