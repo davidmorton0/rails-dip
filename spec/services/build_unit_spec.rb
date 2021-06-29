@@ -17,4 +17,14 @@ RSpec.describe BuildUnit do
       unit_type: unit_type,
     )
   end
+
+  context 'when a unit already exists in the province' do
+    before do
+      create(:unit, province: province, player: create(:player, game: player.game))
+    end
+
+    it 'does not build a unit' do
+      expect { subject.call }.not_to change(Unit, :count)
+    end
+  end
 end
