@@ -8,13 +8,9 @@ RSpec.describe Unit, type: :model do
   let(:province) { build(:province) }
   let(:target_province) { build(:province) }
 
-  it 'returns the unit type' do
-    expect(subject.unit_type).to eq 'Army'
-  end
-
-  it 'returns the unit province' do
-    expect(subject.province).to eq province
-  end
+  it { is_expected.to validate_presence_of(:province) }
+  it { is_expected.to validate_presence_of(:unit_type) }
+  it { is_expected.to validate_presence_of(:game) }
 
   it 'moves to a province' do
     expect { subject.move(target_province) }.to change(subject, :province)
