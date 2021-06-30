@@ -6,7 +6,7 @@ class Player < ApplicationRecord
   validates :country, :game, presence: true
 
   def assign_move_order(order_details)
-    Order.create(
+    MoveOrder.create(
       player: self,
       **order_details,
     )

@@ -18,9 +18,9 @@ RSpec.describe Player, type: :model do
   it { is_expected.to validate_presence_of(:country) }
 
   it 'assigns a move order' do
-    expect { subject.assign_move_order(order_details) }.to change(Order, :count).by(1)
+    expect { subject.assign_move_order(order_details) }.to change(MoveOrder, :count).by(1)
 
-    expect(Order.last).to have_attributes(
+    expect(MoveOrder.last).to have_attributes(
       player: player,
       target_province:
       target_province,
