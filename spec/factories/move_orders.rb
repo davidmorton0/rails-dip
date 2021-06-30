@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :order do
+  factory :move_order do
     order_type { 'Move' }
     current_province { build(:province) }
     target_province { build(:province) }

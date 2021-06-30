@@ -11,16 +11,16 @@ RSpec.describe CheckOrders do
   let(:province1) { create(:province) }
   let(:province2) { create(:province, abbreviation: 'RUH') }
   let(:unit) { create(:unit, province: province1) }
-  let(:order) { create(:order, current_province: province1, target_province: province2, **order_details) }
+  let(:move_order) { create(:move_order, current_province: province1, target_province: province2, **order_details) }
   let(:order_details) { { player: player, season: 'Spring', year: 1901 } }
 
   before do
-    order
+    move_order
     unit
   end
 
   context 'when a move order is given' do
-    let(:orders) { [order] }
+    let(:orders) { [move_order] }
 
     context 'when the order is valid' do
       before do
@@ -30,9 +30,9 @@ RSpec.describe CheckOrders do
       it 'changes the order to success' do
         expect do
           subject.call
-          order.reload
-        end.to change(order, :success).to(true)
-        expect(order.fail_reason).to eq(nil)
+          move_order.reload
+        end.to change(move_order, :success).to(true)
+        expect(move_order.fail_reason).to eq(nil)
       end
     end
 
@@ -40,9 +40,9 @@ RSpec.describe CheckOrders do
       it 'changes the order to failed' do
         expect do
           subject.call
-          order.reload
-        end.to change(order, :success).to(false)
-          .and(change(order, :fail_reason).to('Target province not adjacent'))
+          move_order.reload
+        end.to change(move_order, :success).to(false)
+          .and(change(move_order, :fail_reason).to('Target province not adjacent'))
       end
     end
 
@@ -55,9 +55,9 @@ RSpec.describe CheckOrders do
       it 'changes the order to failed' do
         expect do
           subject.call
-          order.reload
-        end.to change(order, :success).to(false)
-          .and(change(order, :fail_reason).to('Army cannot move to Water province'))
+          move_order.reload
+        end.to change(move_order, :success).to(false)
+          .and(change(move_order, :fail_reason).to('Army cannot move to Water province'))
       end
     end
   end

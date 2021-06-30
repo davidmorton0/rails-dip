@@ -3,7 +3,7 @@
 class CheckOrders
   def initialize(game:, year:, season:)
     @players = Player.where(game: game)
-    @orders = Order.where(player: players, year: year, season: season)
+    @orders = MoveOrder.where(player: players, year: year, season: season)
   end
 
   def call
