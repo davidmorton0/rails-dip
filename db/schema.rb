@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_205123) do
+ActiveRecord::Schema.define(version: 2021_06_30_183144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "build_orders", force: :cascade do |t|
+    t.bigint "province_id", null: false
+    t.string "unit_type"
+    t.bigint "player_id", null: false
+    t.integer "year"
+    t.string "season"
+    t.boolean "sucess"
+    t.string "fail_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_build_orders_on_player_id"
+    t.index ["province_id"], name: "index_build_orders_on_province_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.integer "year"
@@ -80,6 +94,8 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.index ["province_id"], name: "index_units_on_province_id"
   end
 
+  add_foreign_key "build_orders", "players"
+  add_foreign_key "build_orders", "provinces"
   add_foreign_key "maps", "games"
   add_foreign_key "orders", "players"
   add_foreign_key "players", "games"
