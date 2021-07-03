@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LoadMap
+class LoadMapData
   attr_reader :map_name, :map, :game, :provinces_data
 
   def initialize(map: 'classic', game: Game.new)
@@ -16,7 +16,7 @@ class LoadMap
   def load_map_data
     map_data = YAML.load_file(file_location('map'))
 
-    @map = Map.create(game: game, **map_data)
+    @map = Map.create(**map_data)
   end
 
   def load_province_data
