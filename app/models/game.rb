@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
-  has_one :map
+  belongs_to :variant
   has_many :players
-  has_many :units
   has_many :units, through: :player
 
   validates :season, inclusion: { in: %w[Spring Autumn Winter] }
