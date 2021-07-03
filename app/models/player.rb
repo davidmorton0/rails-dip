@@ -1,9 +1,10 @@
 class Player < ApplicationRecord
   belongs_to :game
-  has_many :orders
+  has_many :build_orders
+  has_many :move_orders
   has_many :units
 
-  validates :country, :game, presence: true
+  validates :country, :game, :supply, presence: true
 
   def assign_move_order(current_province:, target_province:, year:, season:)
     MoveOrder.create(
