@@ -23,7 +23,7 @@ RSpec.describe CheckWinterOrders do
           subject.call
           build_order.reload
         end.to change(build_order, :success).to(true)
-           .and(not_change(past_build_order, :success))
+          .and(not_change(past_build_order, :success))
 
         expect(build_order.fail_reason).to eq(nil)
       end
@@ -37,7 +37,7 @@ RSpec.describe CheckWinterOrders do
           subject.call
           build_order.reload
         end.to change(build_order, :success).to(false)
-           .and(not_change(past_build_order, :success))
+          .and(not_change(past_build_order, :success))
 
         expect(build_order.fail_reason).to eq('Player does not have enough supply to build')
       end
@@ -47,7 +47,7 @@ RSpec.describe CheckWinterOrders do
       let(:additional_build_order) do
         create(:build_order, province: create(:province), player: player, season: 'Winter', year: 1902)
       end
-      
+
       let(:orders) { [build_order, build_order_2] }
 
       it 'changes the order to fail' do
@@ -56,8 +56,8 @@ RSpec.describe CheckWinterOrders do
           build_order.reload
           additional_build_order.reload
         end.to change(build_order, :success).to(false)
-           .and(change(additional_build_order, :success).to(false))
-           .and(not_change(past_build_order, :success))
+          .and(change(additional_build_order, :success).to(false))
+          .and(not_change(past_build_order, :success))
 
         expect(build_order.fail_reason).to eq('Player has issued too many build orders')
         expect(additional_build_order.fail_reason).to eq('Player has issued too many build orders')
@@ -76,7 +76,7 @@ RSpec.describe CheckWinterOrders do
           build_order.reload
           additional_build_order.reload
         end.to change(build_order, :success).to(true)
-           .and(change(additional_build_order, :success).to(false))
+          .and(change(additional_build_order, :success).to(false))
 
         expect(additional_build_order.fail_reason).to eq('More than one build order for the same province')
       end

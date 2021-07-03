@@ -20,6 +20,7 @@ RSpec.describe Player, type: :model do
         target_province: target_province,
         current_province: current_province }
     end
+
     it 'assigns a move order' do
       expect { subject.assign_move_order(**order_details) }.to change(MoveOrder, :count).by(1)
 
