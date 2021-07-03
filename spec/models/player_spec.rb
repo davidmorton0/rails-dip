@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Player, type: :model do
-  subject { described_class.new(country: 'Turkey', game: build(:game)) }
+  subject { described_class.new(country: 'Turkey', game: build(:game), supply: 3) }
 
   let(:current_province) { create(:province) }
   let(:target_province) { create(:province) }
@@ -11,6 +11,7 @@ RSpec.describe Player, type: :model do
 
   it { is_expected.to validate_presence_of(:game) }
   it { is_expected.to validate_presence_of(:country) }
+  it { is_expected.to validate_presence_of(:supply) }
 
   context 'when a move order is assigned' do
     let(:order_details) do
@@ -39,7 +40,8 @@ RSpec.describe Player, type: :model do
         year: '1901',
         province: current_province }
     end
-    it 'assigns a build order' do
+
+    it 'creates a build order' do
       expect { subject.assign_build_order(**order_details) }.to change(BuildOrder, :count).by(1)
 
       expect(BuildOrder.last).to have_attributes(
