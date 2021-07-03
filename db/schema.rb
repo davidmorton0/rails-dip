@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_205123) do
+ActiveRecord::Schema.define(version: 2021_07_01_195823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "build_orders", force: :cascade do |t|
+    t.bigint "province_id", null: false
+    t.string "unit_type"
+    t.bigint "player_id", null: false
+    t.integer "year"
+    t.string "season"
+    t.boolean "success"
+    t.string "fail_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_build_orders_on_player_id"
+    t.index ["province_id"], name: "index_build_orders_on_province_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.integer "year"
@@ -30,7 +44,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.index ["game_id"], name: "index_maps_on_game_id"
   end
 
-  create_table "orders", force: :cascade do |t|
+  create_table "move_orders", force: :cascade do |t|
     t.string "order_type"
     t.integer "target_province"
     t.datetime "created_at", precision: 6, null: false
@@ -41,7 +55,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.string "fail_reason"
     t.bigint "player_id"
     t.integer "current_province"
-    t.index ["player_id"], name: "index_orders_on_player_id"
+    t.index ["player_id"], name: "index_move_orders_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -49,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.string "country"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "supply"
     t.index ["game_id"], name: "index_players_on_game_id"
   end
 
@@ -80,8 +95,10 @@ ActiveRecord::Schema.define(version: 2021_06_29_205123) do
     t.index ["province_id"], name: "index_units_on_province_id"
   end
 
+  add_foreign_key "build_orders", "players"
+  add_foreign_key "build_orders", "provinces"
   add_foreign_key "maps", "games"
-  add_foreign_key "orders", "players"
+  add_foreign_key "move_orders", "players"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
 end
