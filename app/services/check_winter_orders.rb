@@ -11,15 +11,11 @@ class CheckWinterOrders
       @build_orders = BuildOrder.where(player: player, year: game.year)
 
       build_orders.each do |order|
-        if duplicate_order?(order, player)
-          fail_order(order, 'More than one build order for the same province')
-        elsif !excess_supply?(player)
-          fail_order(order, 'Player does not have enough supply to build')
-        elsif !enough_supply_for_orders?(player)
-          fail_order(order, 'Player has issued too many build orders')
-        else
-          order.update(success: true)
-        end
+        next unless validate_duplicate_order(order, player)
+        next unless validate_excess_supply(order, player)
+        next unless validate_enough_supply_for_orders(order, player)
+
+        order.update(success: true)
       end
     end
   end
@@ -43,5 +39,29 @@ class CheckWinterOrders
   def duplicate_order?(order, player)
     similar_orders = BuildOrder.where(player: player, year: game.year, province: order.province)
     similar_orders.count > 1 && similar_orders.first != order
+  end
+
+  def validate_duplicate_order(order, player)
+    if duplicate_order?(order, player)
+      fail_order(order, 'More than one build order for the same province')
+      return false
+    end
+    true
+  end
+
+  def validate_excess_supply(order, player)
+    unless excess_supply?(player)
+      fail_order(order, 'Player does not have enough supply to build')
+      return false
+    end
+    true
+  end
+
+  def validate_enough_supply_for_orders(order, player)
+    unless enough_supply_for_orders?(player)
+      fail_order(order, 'Player has issued too many build orders')
+      return false
+    end
+    true
   end
 end
