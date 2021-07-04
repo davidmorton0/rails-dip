@@ -20,15 +20,13 @@ class LoadVariant
   end
 
   def variant_data
-    file = variant_file_location
-
     raise('File not found') unless File.exist?(file)
 
     @variant_data ||= YAML.load_file(file)
   end
 
-  def variant_file_location
-    File.join(Dir.pwd, "#{FILE_PATH}#{variant_name}.yml")
+  def file
+    @file ||= File.join(Dir.pwd, "#{FILE_PATH}#{variant_name}.yml")
   end
 
   def map(map_name)

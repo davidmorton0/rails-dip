@@ -27,6 +27,6 @@ RSpec.describe SetupNewGame do
 
     expect(players).to include(an_object_having_attributes(country: 'England'),
                                an_object_having_attributes(country: 'Russia'),
-                               an_object_having_attributes(country: 'Italy')),
+                               an_object_having_attributes(country: 'Italy'))
   end
 end
