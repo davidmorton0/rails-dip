@@ -1,26 +1,21 @@
 # frozen_string_literal: true
 
-class LoadMap
-  attr_reader :map_name, :map, :game, :provinces_data
+class LoadMapData
+  def initialize(map:)
+    @map = map
 
-  def initialize(map: 'classic', game: Game.new)
-    @map_name = map
-    @game = game
-
-    load_map_data
-    load_province_data
     create_provinces
     create_province_links
   end
 
-  def load_map_data
-    map_data = YAML.load_file(file_location('map'))
+  private
 
-    @map = Map.create(game: game, **map_data)
-  end
+  attr_reader :map
 
-  def load_province_data
-    @provinces_data = YAML.load_file(file_location('provinces'))
+  def provinces_data
+    raise('File not found') unless File.exist?(file_location)
+
+    @provinces_data ||= YAML.load_file(file_location)
   end
 
   def create_provinces
@@ -49,7 +44,7 @@ class LoadMap
     end
   end
 
-  def file_location(file)
-    File.join(Dir.pwd, "/lib/maps/#{map_name}/#{file}.yml")
+  def file_location
+    @file_location ||= File.join(Dir.pwd, "/lib/maps/#{map.name.downcase}.yml")
   end
 end

@@ -2,7 +2,7 @@
 
 class Map < ApplicationRecord
   has_many :provinces
-  belongs_to :game
+  has_many :variants
 
   validates :name, presence: true
 end

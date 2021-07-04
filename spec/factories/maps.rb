@@ -3,6 +3,5 @@
 FactoryBot.define do
   factory :map do
     name { 'Classic' }
-    game { create(:game) }
   end
 end
