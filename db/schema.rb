@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_195823) do
+ActiveRecord::Schema.define(version: 2021_07_03_144512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,14 +34,14 @@ ActiveRecord::Schema.define(version: 2021_07_01_195823) do
     t.string "season"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "variant_id", null: false
+    t.index ["variant_id"], name: "index_games_on_variant_id"
   end
 
   create_table "maps", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "game_id"
-    t.index ["game_id"], name: "index_maps_on_game_id"
   end
 
   create_table "move_orders", force: :cascade do |t|
@@ -95,10 +95,23 @@ ActiveRecord::Schema.define(version: 2021_07_01_195823) do
     t.index ["province_id"], name: "index_units_on_province_id"
   end
 
+  create_table "variants", force: :cascade do |t|
+    t.string "name"
+    t.string "countries", default: [], array: true
+    t.string "string", default: [], array: true
+    t.integer "starting_year"
+    t.string "starting_season"
+    t.bigint "map_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["map_id"], name: "index_variants_on_map_id"
+  end
+
   add_foreign_key "build_orders", "players"
   add_foreign_key "build_orders", "provinces"
-  add_foreign_key "maps", "games"
+  add_foreign_key "games", "variants"
   add_foreign_key "move_orders", "players"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
+  add_foreign_key "variants", "maps"
 end
