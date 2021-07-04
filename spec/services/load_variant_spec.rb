@@ -3,45 +3,35 @@ require 'rails_helper'
 RSpec.describe LoadVariant do
   subject { described_class.new(**params) }
 
-  # let(:params) { {} }
+  context 'when no variant is specified' do
+    let(:params) { {} }
 
-  # context 'when no map is specified' do
-  #   it 'loads the default map', :aggregate_failures do
-  #     expect { subject }.to change(Map, :count).by(1)
+    it 'loads a variant', :aggregate_failures do
+      expect { subject }.to change(Variant, :count).by(1)
 
-  #     map = Map.first
-  #     expect(map.name).to eq('Classic')
-  #     expect(map.countries.count).to eq(7)
-  #   end
-  # end
+      expect(Variant.last).to have_attributes(
+        name: 'Classic',
+        map: a_kind_of(Map),
+        countries: a_collection_containing_exactly('Austria', 'England', 'France', 'Germany', 'Italy', 'Russia', 'Turkey'),
+        starting_year: 1901,
+        starting_season: 'Spring'
+      )
+    end
+  end
 
-  # context 'when the classic map is loaded' do
-  #   let(:params) { { map: 'classic' } }
+  context 'when a map is specified' do
+    let(:params) { { variant_name: 'italy_vs_germany'} }
 
-  #   it 'creates all the provinces' do
-  #     expect { subject }.to change(Province, :count).by(75)
-  #   end
+    it 'loads the correct variant', :aggregate_failures do
+      expect { subject }.to change(Variant, :count).by(1)
 
-  #   it 'creates a provinces with the correct attributes' do
-  #     subject
-
-  #     expect(Province.find_by(abbreviation: 'MUN')).to have_attributes(
-  #       name: 'Munich',
-  #       abbreviation: 'MUN',
-  #       supply_center: true,
-  #       province_type: 'Inland',
-  #     )
-  #   end
-
-  #   it 'creates links between provinces' do
-  #     subject
-
-  #     province = Province.find_by(abbreviation: 'ADR')
-  #     linked_provinces_abbreviations = %w[TRI ALB ION APU VEN]
-
-  #     linked_provinces_abbreviations.each do |linked_province|
-  #       expect(province.adjacent?(Province.find_by(abbreviation: linked_province))).to eq true
-  #     end
-  #   end
-  # end
+      expect(Variant.last).to have_attributes(
+        name: 'Italy vs Germany',
+        map: a_kind_of(Map),
+        countries: a_collection_containing_exactly('Germany', 'Italy'),
+        starting_year: 1901,
+        starting_season: 'Spring'
+      )
+    end
+  end
 end
