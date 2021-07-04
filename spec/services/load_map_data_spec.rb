@@ -1,47 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe LoadMapData do
-  subject { described_class.new(**params) }
+  subject { described_class.new(map: map) }
 
-  # let(:params) { {} }
+  context 'when the classic map is loaded' do
+    let(:map) { create(:map, name: 'Classic') }
 
-  # context 'when no map is specified' do
-  #   it 'loads the default map', :aggregate_failures do
-  #     expect { subject }.to change(Map, :count).by(1)
+    it 'creates all the provinces' do
+      expect { subject }.to change(Province, :count).by(75)
+    end
 
-  #     map = Map.first
-  #     expect(map.name).to eq('Classic')
-  #     expect(map.countries.count).to eq(7)
-  #   end
-  # end
+    it 'creates a province with the correct attributes' do
+      subject
 
-  # context 'when the classic map is loaded' do
-  #   let(:params) { { map: 'classic' } }
+      expect(Province.find_by(abbreviation: 'MUN')).to have_attributes(
+        name: 'Munich',
+        abbreviation: 'MUN',
+        supply_center: true,
+        province_type: 'Inland',
+      )
+    end
 
-  #   it 'creates all the provinces' do
-  #     expect { subject }.to change(Province, :count).by(75)
-  #   end
+    it 'creates links between provinces' do
+      subject
 
-  #   it 'creates a provinces with the correct attributes' do
-  #     subject
+      province = Province.find_by(abbreviation: 'ADR')
+      linked_provinces_abbreviations = %w[TRI ALB ION APU VEN]
 
-  #     expect(Province.find_by(abbreviation: 'MUN')).to have_attributes(
-  #       name: 'Munich',
-  #       abbreviation: 'MUN',
-  #       supply_center: true,
-  #       province_type: 'Inland',
-  #     )
-  #   end
+      linked_provinces_abbreviations.each do |linked_province|
+        expect(province.adjacent?(Province.find_by(abbreviation: linked_province))).to eq true
+      end
+    end
+  end
 
-  #   it 'creates links between provinces' do
-  #     subject
+  context 'when there is no file for the variant specified' do
+    let(:map) { create(:map, name: 'Not Map') }
 
-  #     province = Province.find_by(abbreviation: 'ADR')
-  #     linked_provinces_abbreviations = %w[TRI ALB ION APU VEN]
-
-  #     linked_provinces_abbreviations.each do |linked_province|
-  #       expect(province.adjacent?(Province.find_by(abbreviation: linked_province))).to eq true
-  #     end
-  #   end
-  # end
+    it 'raises an error' do
+      expect { subject }.to raise_error('File not found')
+    end
+  end
 end
