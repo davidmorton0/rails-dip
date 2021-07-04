@@ -9,8 +9,6 @@ RSpec.describe SetupNewGame do
   let(:starting_year) { 1800 }
   let(:starting_season) { 'Winter' }
   let(:countries) { %w[England Russia Italy] }
-  
-  before {  }
 
   it 'creates a new game' do
     expect { subject.call }.to change(Game, :count).by(1)
@@ -19,7 +17,7 @@ RSpec.describe SetupNewGame do
     expect(game).to have_attributes(
       variant: variant,
       year: starting_year,
-      season: starting_season
+      season: starting_season,
     )
   end
 
@@ -29,6 +27,6 @@ RSpec.describe SetupNewGame do
 
     expect(players).to include(an_object_having_attributes(country: 'England'),
                                an_object_having_attributes(country: 'Russia'),
-                               an_object_having_attributes(country: 'Italy'))
+                               an_object_having_attributes(country: 'Italy')),
   end
 end

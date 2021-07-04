@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 class LoadVariant
@@ -21,15 +20,18 @@ class LoadVariant
   end
 
   def variant_data
-    @variant_data ||= YAML.load_file(variant_file_location)
+    file = variant_file_location
+
+    raise('File not found') unless File.exist?(file)
+
+    @variant_data ||= YAML.load_file(file)
   end
 
   def variant_file_location
-    File.join(Dir.pwd, "#{FILE_PATH}/#{variant_name}.yml")
+    File.join(Dir.pwd, "#{FILE_PATH}#{variant_name}.yml")
   end
 
   def map(map_name)
     Map.create(name: map_name)
   end
-  
 end

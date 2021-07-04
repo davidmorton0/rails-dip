@@ -23,9 +23,8 @@ class SetupNewGame
       Player.create(
         game: game,
         country: country,
-        supply: 3
+        supply: 3,
       )
     end
   end
-
 end
