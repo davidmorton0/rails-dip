@@ -1,0 +1,6 @@
+---
+name: Classic
+map: classic
+countries: [Austria, England, France, Germany, Italy, Russia, Turkey]
+starting_year: 1901
+starting_season: Spring
