@@ -12,9 +12,8 @@ RSpec.describe SetupNewGame do
 
   it 'creates a new game' do
     expect { subject.call }.to change(Game, :count).by(1)
-    game = Game.last
-    
-    expect(game).to have_attributes(
+
+    expect(Game.last).to have_attributes(
       variant: variant,
       year: starting_year,
       season: starting_season,
@@ -23,10 +22,9 @@ RSpec.describe SetupNewGame do
 
   it 'creates players' do
     expect { subject.call }.to change(Player, :count).by(3)
-    players = Player.all
 
-    expect(players).to include(an_object_having_attributes(country: 'England'),
-                               an_object_having_attributes(country: 'Russia'),
-                               an_object_having_attributes(country: 'Italy'))
+    expect(Player.all).to include(an_object_having_attributes(country: 'England'),
+                                  an_object_having_attributes(country: 'Russia'),
+                                  an_object_having_attributes(country: 'Italy'))
   end
 end
