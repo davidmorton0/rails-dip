@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe LoadMapData do
-  subject { described_class.new(map: map) }
+  subject { described_class.new(map: map).call }
 
   context 'when the classic map is loaded' do
     let(:map) { create(:map, name: 'Classic') }
