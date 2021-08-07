@@ -4,299 +4,451 @@
   supply_center: false
   province_type: Water
   linked_to: ['TRI', 'ALB', 'ION', 'APU', 'VEN']
+  x_pos: 10
+  y_pos: 20
 - name: Aegean Sea
   abbreviation: AEG
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Albania
   abbreviation: ALB
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Ankara
   abbreviation: ANK
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Apulia
   abbreviation: APU
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Armenia
   abbreviation: ARM
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Baltic Sea
   abbreviation: BAL
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Barents Sea
   abbreviation: BAR
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Belgium
   abbreviation: BEL
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Berlin
   abbreviation: BER
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Black Sea
   abbreviation: BLA
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Bohemia
   abbreviation: BOH
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Brest
   abbreviation: BRE
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Budapest
   abbreviation: BUD
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Bulgaria
   abbreviation: BUL
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Burgundy
   abbreviation: BUR
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Clyde
   abbreviation: CLY
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Constantinople
   abbreviation: CON
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Denmark
   abbreviation: DEN
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Eastern Mediterranean
   abbreviation: EME
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Edinburgh
   abbreviation: EDI
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: English Channel
   abbreviation: ENG
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Finland
   abbreviation: FIN
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Galicia
   abbreviation: GAL
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Gascony
   abbreviation: GAS
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Greece
   abbreviation: GRE
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Gulf of Lyon
   abbreviation: GOL
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Gulf of Bothnia
   abbreviation: GOB
-  supply_center: 
+  supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Helgoland Bight
   abbreviation: HEL
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Holland
   abbreviation: HOL
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Ionian Sea
   abbreviation: ION
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Irish Sea
   abbreviation: IRI
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Kiel
   abbreviation: KIE
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Liverpool
   abbreviation: LVP
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Livonia
   abbreviation: LVA
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: London
   abbreviation: LON
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Marseilles
   abbreviation: MAR
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Mid-Atlantic Ocean
   abbreviation: MAO
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Moscow
   abbreviation: MOS
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Munich
   abbreviation: MUN
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Naples
   abbreviation: NAP
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: North Atlantic Ocean
   abbreviation: NAO
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: North Africa
   abbreviation: NAF
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: North Sea
   abbreviation: NTH
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Norway
   abbreviation: NOR
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Norwegian Sea
   abbreviation: NMG
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Paris
   abbreviation: PAR
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Picardy
   abbreviation: PIC
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Piedmont
   abbreviation: PIE
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Portugal
   abbreviation: POR
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Prussia
   abbreviation: PRU
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Rome
   abbreviation: ROM
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Ruhr
   abbreviation: RUH
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Rumania
   abbreviation: RUM
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Serbia
   abbreviation: SER
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Sevastopol
   abbreviation: SEV
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Silesia
   abbreviation: SIL
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Skagerrak
   abbreviation: SKA
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Smyrna
   abbreviation: SMY
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Spain
   abbreviation: SPA
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: St. Petersburg 
   abbreviation: STP
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Sweden
   abbreviation: SWE
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Syria
   abbreviation: SYR
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Trieste
   abbreviation: TRI
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Tunis
   abbreviation: TUN
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Tuscany
   abbreviation: TUS
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Tyrolia
   abbreviation: TYR
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Tyrrhenian Sea
   abbreviation: TYS
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Ukraine
   abbreviation: UKR
   supply_center: false
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Venice
   abbreviation: VEN
   supply_center: true
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Vienna
   abbreviation: VIE
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Wales
   abbreviation: WAL
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20
 - name: Warsaw
   abbreviation: WAR
   supply_center: true
   province_type: Inland
+  x_pos: 10
+  y_pos: 20
 - name: Western Mediterranean
+  x_pos: 10
+  y_pos: 20
   abbreviation: WME
   supply_center: false
   province_type: Water
+  x_pos: 10
+  y_pos: 20
 - name: Yorkshire
   abbreviation: YOR
   supply_center: false
   province_type: Coastal
+  x_pos: 10
+  y_pos: 20

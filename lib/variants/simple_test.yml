@@ -1,0 +1,6 @@
+---
+name: Simple Test
+map: simple_test
+countries: [Yellow, Green]
+starting_year: 1901
+starting_season: Spring
