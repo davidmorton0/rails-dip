@@ -1,6 +1,6 @@
 ---
-name: Simple Test
-map: simple_test
+name: Simple
+map: simple
 countries: [Yellow, Green]
 starting_year: 1901
 starting_season: Spring

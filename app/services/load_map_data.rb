@@ -3,7 +3,9 @@
 class LoadMapData
   def initialize(map:)
     @map = map
+  end
 
+  def call
     create_provinces
     create_province_links
   end
@@ -11,12 +13,6 @@ class LoadMapData
   private
 
   attr_reader :map
-
-  def provinces_data
-    raise('File not found') unless File.exist?(file_location)
-
-    @provinces_data ||= YAML.load_file(file_location)
-  end
 
   def create_provinces
     provinces_data.each do |province_data|
@@ -29,6 +25,12 @@ class LoadMapData
     raise "Invalid Province #{province.name} reason: #{province.errors.errors}" unless province.valid?
 
     province.save
+  end
+
+  def provinces_data
+    raise('File not found') unless File.exist?(file_location)
+
+    @provinces_data ||= YAML.load_file(file_location)
   end
 
   def create_province_links

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe LoadVariant do
-  subject { described_class.new(**params) }
+  subject { described_class.new(**params).call }
+
+  let(:params) { {} }
 
   context 'when no variant is specified' do
-    let(:params) { {} }
-
-    it 'loads a variant', :aggregate_failures do
+    it 'loads the default variant', :aggregate_failures do
       expect { subject }.to change(Variant, :count).by(1)
 
       expect(Variant.last).to have_attributes(
@@ -41,6 +41,20 @@ RSpec.describe LoadVariant do
 
     it 'raises an error' do
       expect { subject }.to raise_error('File not found')
+    end
+  end
+
+  context 'when the map already exists' do
+    before { create(:map, name: 'classic') }
+
+    it 'does not create a new map' do
+      expect { subject }.not_to change(Map, :count)
+    end
+  end
+
+  context 'when the map does not exist' do
+    it 'loads the map data' do
+      expect { subject }.to change(Map, :count).by(1).and(change(Province, :count).by(75))
     end
   end
 end

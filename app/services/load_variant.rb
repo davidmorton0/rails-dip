@@ -5,7 +5,9 @@ class LoadVariant
 
   def initialize(variant_name: 'classic')
     @variant_name = variant_name
+  end
 
+  def call
     create_variant
   end
 
@@ -30,6 +32,12 @@ class LoadVariant
   end
 
   def map(map_name)
-    Map.create(name: map_name)
+    Map.where(name: map_name).first || create_map(map_name)
+  end
+
+  def create_map(map_name)
+    map = Map.create(name: map_name)
+    LoadMapData.new(map: map).call
+    map
   end
 end
