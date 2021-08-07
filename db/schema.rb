@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_03_144512) do
+ActiveRecord::Schema.define(version: 2021_07_15_204718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 2021_07_03_144512) do
     t.boolean "supply_center"
     t.bigint "map_id", null: false
     t.string "province_type"
+    t.integer "x_pos"
+    t.integer "y_pos"
     t.index ["map_id"], name: "index_provinces_on_map_id"
   end
 

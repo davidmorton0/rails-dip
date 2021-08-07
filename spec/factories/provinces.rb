@@ -7,5 +7,7 @@ FactoryBot.define do
     supply_center { true }
     map { build(:map) }
     province_type { 'Inland' }
+    x_pos { 20 }
+    y_pos { 30 }
   end
 end

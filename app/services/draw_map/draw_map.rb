@@ -10,9 +10,10 @@ module DrawMap
     end
 
     def call
-      units = []
-      units.each do |_|
-        @map_image = add_unit(20, 20, 'army')
+      game.players.each do |player|
+        player.units.each do |unit|
+          @map_image = add_unit(unit.province.x_pos, unit.province.y_pos, 'army')
+        end
       end
 
       map_image.write new_map_location
@@ -20,7 +21,7 @@ module DrawMap
 
     private
 
-    attr_reader :map_image
+    attr_reader :game, :map_image
 
     def map_file_location
       Rails.root.join('app/assets/images/classic_map.png')

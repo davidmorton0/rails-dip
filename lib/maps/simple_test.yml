@@ -1,0 +1,29 @@
+---
+- name: North-West
+  abbreviation: NWE
+  supply_center: false
+  province_type: Coastal
+  linked_to: ['NEA', 'SWE']
+  x_pos: 50
+  y_pos: 50
+- name: North-East
+  abbreviation: NEA
+  supply_center: false
+  province_type: Water
+  linked_to: ['NWE', 'SEA']
+  x_pos: 150
+  y_pos: 60
+- name: South-West
+  abbreviation: SWE
+  supply_center: true
+  province_type: Inland
+  linked_to: ['NWE', 'SEA']
+  x_pos: 40
+  y_pos: 160
+- name: South-East
+  abbreviation: SEA
+  supply_center: true
+  province_type: Coastal
+  linked_to: ['NEA', 'SWE']
+  x_pos: 140
+  y_pos: 170
