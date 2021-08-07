@@ -2,8 +2,6 @@
 
 module DrawMap
   class DrawMap
-    include AddUnit
-
     def initialize(game)
       @game = game
       @map_image = MiniMagick::Image.open(map_file_location)
@@ -12,7 +10,7 @@ module DrawMap
     def call
       game.players.each do |player|
         player.units.each do |unit|
-          @map_image = add_unit(unit.province.x_pos, unit.province.y_pos, 'army')
+          @map_image = add_unit(unit)
         end
       end
 
@@ -22,6 +20,10 @@ module DrawMap
     private
 
     attr_reader :game, :map_image
+
+    def add_unit(unit)
+      AddUnit.new(map_image, unit).call
+    end
 
     def map_file_location
       Rails.root.join('app/assets/images/classic_map.png')

@@ -1,10 +1,7 @@
 module DrawMap
   class CalculateUnitOffset
-
-    def initialize(unit:, unit_image:, map_image:)
-      @unit = unit
-      @unit_image = unit_image
-      @map_image = map_image
+    def initialize(params)
+      @params = params
     end
 
     def call
@@ -13,14 +10,14 @@ module DrawMap
 
     private
 
-    attr_reader :unit, :unit_image, :map_image
+    attr_reader :params
 
     def x_offset
-      offset(unit.province.x_pos, unit_image.width, map_image.width)
+      offset(params[:x_pos], params[:unit_image_width], params[:map_image_width])
     end
 
     def y_offset
-      offset(unit.province.y_pos, unit_image.height, map_image.height)
+      offset(params[:y_pos], params[:unit_image_height], params[:map_image_height])
     end
 
     def offset(image_centre, image_dimension, map_dimension)
@@ -32,6 +29,5 @@ module DrawMap
 
       offset
     end
-    
   end
 end
