@@ -18,4 +18,26 @@ class Game < ApplicationRecord
     current = seasons.index(current_season)
     seasons[(current + 1) % 3]
   end
+
+  def country_list
+    variant.countries.join(', ')
+  end
+
+  def countries_with_players
+    players.map(&:country).join(',')
+  end
+
+  def total_units
+    players.sum { |player| player.units.count }
+  end
+
+  def current_map_image_location
+    return "game-maps/#{current_map}" if current_map
+
+    default_map
+  end
+
+  def default_map
+    'classic_map.png'
+  end
 end

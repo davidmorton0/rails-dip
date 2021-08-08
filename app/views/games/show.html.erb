@@ -6,32 +6,32 @@
 
 <table class="table">
   <tr>
-    <td>Game Id:</td>    <td><%= @game.id%></td>
+    <td>Game Id:</td>    <td><%= @game.id %></td>
   </tr>
   <tr>
-    <td>Variant:</td>    <td><%= @game.variant.name%></td>
+    <td>Variant:</td>    <td><%= @game.variant.name %></td>
   </tr>
   <tr>
-    <td>Game Year:</td>    <td><%= @game.year%></td>
+    <td>Game Year:</td>    <td><%= @game.year %></td>
   </tr>
   <tr>
-    <td>Game Season:</td>    <td><%= @game.season%></td>
+    <td>Game Season:</td>    <td><%= @game.season %></td>
   </tr>
   <tr>
-    <td>Countries:</td>    <td><%= @game.variant.countries.join(', ')%></td>
+    <td>Countries:</td>    <td><%= @game.country_list %></td>
   </tr>
   <tr>
-    <td>Players:</td>    <td><%= @game.players.count%></td>
+    <td>Players:</td>    <td><%= @game.players.count %></td>
   </tr>
   <tr>
-    <td>Countries being played:</td>    <td><%= @game.players.map(&:country).join(',') %></td>
+    <td>Countries being played:</td>    <td><%= @game.countries_with_players %></td>
   </tr>
   <tr>
-    <td>Units:</td>    <td><%= @game.players.map {|player| player.units.count }.sum %></td>
+    <td>Units:</td>    <td><%= @game.total_units %></td>
   </tr>
  </table>
 
-<%= image_tag 'classic_map.png',  style: '100%xauto' %>
+<%= image_tag @game.current_map_image_location,  style: '100%xauto' %>
 
 <br>
 

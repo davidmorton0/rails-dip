@@ -213,3 +213,6 @@ RSpec/MessageSpies:
 
 RSpec/StubbedMock:
   Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
