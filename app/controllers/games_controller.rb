@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  def show; end
+  def show
+    @game = Game.find(params['id'])
+  end
 end
