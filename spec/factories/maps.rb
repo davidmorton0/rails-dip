@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :map do
-    name { 'Classic' }
+    name { 'classic' }
   end
 end

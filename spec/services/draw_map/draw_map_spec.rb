@@ -8,7 +8,7 @@ RSpec.describe DrawMap::DrawMap do
   let(:game) { create(:game) }
   let(:unit) { create(:unit, province: build(:province), player: create(:player, game: game)) }
 
-  let(:map_file_location) { Rails.root.join('app/assets/images/classic_map.png') }
+  let(:map_file_location) { Rails.root.join('app/assets/images/classic.png') }
   let(:army_file_location) { Rails.root.join('app/assets/images/army.png') }
   let(:new_map_location) { Rails.root.join("app/assets/images/game-maps/#{uuid}.png") }
 

@@ -29,7 +29,7 @@ module DrawMap
     end
 
     def map_file_location
-      Rails.root.join('app/assets/images/classic_map.png')
+      Rails.root.join("app/assets/images/#{game.variant.name.downcase}.png")
     end
 
     def new_map_location

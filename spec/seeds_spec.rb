@@ -12,6 +12,6 @@ RSpec.describe Rails do
       .and(change(Player, :count).by(2))
       .and(change(Province, :count).by(79))
       .and(change(Variant, :count).by(2))
-      .and(change(Unit, :count).by(1)))
+      .and(change(Unit, :count).by(3)))
   end
 end
