@@ -2,6 +2,12 @@
 
 require 'rails_helper'
 
-# RSpec.describe "game/show.html.erb", type: :view do
-#   pending "add some examples to (or delete) #{__FILE__}"
-# end
+RSpec.describe 'games/show' do
+  it 'shows the game page' do
+    assign(:game, create(:game))
+
+    render
+
+    expect(rendered).to match /Classic/
+  end
+end
