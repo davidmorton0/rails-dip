@@ -8,12 +8,15 @@ RSpec.describe DrawMap::DrawMap do
   let(:game) { create(:game) }
   let(:unit) { create(:unit, province: build(:province), player: create(:player, game: game)) }
 
-  let(:map_file_location) { Rails.root.join('app/assets/images/classic_map.png') }
+  let(:map_file_location) { Rails.root.join('app/assets/images/classic.png') }
   let(:army_file_location) { Rails.root.join('app/assets/images/army.png') }
-  let(:new_map_location) { Rails.root.join('app/assets/images/game-maps/new_map.png') }
+  let(:new_map_location) { Rails.root.join("app/assets/images/game-maps/#{uuid}.png") }
 
   let(:map_image) { instance_spy(MiniMagick::Image) }
   let(:unit_image) { instance_spy(MiniMagick::Image) }
+  let(:uuid) { '12345678910abcdefghijlmnop' }
+
+  before { expect(SecureRandom).to receive(:uuid).and_return(uuid) }
 
   context 'when the map has no units' do
     it 'draws a map' do

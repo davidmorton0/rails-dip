@@ -1,2 +1,47 @@
-<h1>Diplomacy Game</h1>
-<%= image_tag 'classic_map.png',  style: '100%xauto' %>
+<div class="center jumbotron">
+  <h1>Diplomacy</h1>
+</div>
+
+<h2>Game Info</h2>
+
+<table class="table">
+  <tr>
+    <td>Game Id:</td>    <td><%= @game.id %></td>
+  </tr>
+  <tr>
+    <td>Variant:</td>    <td><%= @game.variant.name %></td>
+  </tr>
+  <tr>
+    <td>Game Year:</td>    <td><%= @game.year %></td>
+  </tr>
+  <tr>
+    <td>Game Season:</td>    <td><%= @game.season %></td>
+  </tr>
+  <tr>
+    <td>Countries:</td>    <td><%= @game.country_list %></td>
+  </tr>
+  <tr>
+    <td>Players:</td>    <td><%= @game.players.count %></td>
+  </tr>
+  <tr>
+    <td>Countries being played:</td>    <td><%= @game.countries_with_players %></td>
+  </tr>
+  <tr>
+    <td>Units:</td>    <td><%= @game.total_units %></td>
+  </tr>
+ </table>
+
+<%= image_tag @game.map_image,  style: '100%xauto' %>
+
+<br>
+
+<h2>Map Info</h2>
+
+<table class="table">
+  <tr>
+    <td>Name:</td>    <td><%= @game.variant.map.name%></td>
+  </tr>
+  <tr>
+    <td>Provinces:</td>    <td><%= @game.variant.map.provinces.count%></td>
+  </tr>
+</table>

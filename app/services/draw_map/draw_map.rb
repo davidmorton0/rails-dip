@@ -14,7 +14,10 @@ module DrawMap
         end
       end
 
-      map_image.write new_map_location
+      map_location = new_map_location
+
+      map_image.write map_location
+      game.update(current_map: file_name)
     end
 
     private
@@ -22,15 +25,23 @@ module DrawMap
     attr_reader :game, :map_image
 
     def add_unit(unit)
-      AddUnit.new(map_image, unit).call
+      ::DrawMap::AddUnit.new(map_image, unit).call
     end
 
     def map_file_location
-      Rails.root.join('app/assets/images/classic_map.png')
+      Rails.root.join("app/assets/images/#{game.variant.name.downcase}.png")
     end
 
     def new_map_location
-      Rails.root.join('app/assets/images/game-maps/new_map.png')
+      Rails.root.join("app/assets/images/game-maps/#{file_name}")
+    end
+
+    def file_name
+      "#{uuid}.png"
+    end
+
+    def uuid
+      @uuid ||= SecureRandom.uuid
     end
   end
 end
