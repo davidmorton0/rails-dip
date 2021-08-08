@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe Rails do
-  subject { described_class.application.load_seed }
+RSpec.describe RailsDipSeeds, :seeds do
+  subject { described_class.call }
 
   it 'loads seeds' do
     expect { subject }
