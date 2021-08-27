@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LoadVariant do
+RSpec.describe LoadVariant, :seeds do
   subject { described_class.new(**params).call }
 
   let(:params) { {} }

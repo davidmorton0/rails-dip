@@ -28,7 +28,7 @@ class LoadVariant
   end
 
   def file
-    @file ||= File.join(Dir.pwd, "#{FILE_PATH}#{variant_name}.yml")
+    @file ||= Rails.root.join('lib', 'variants', "#{variant_name}.yml")
   end
 
   def map(map_name)
