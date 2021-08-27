@@ -37,3 +37,6 @@ yarn-debug.log*
 
 # Ignore generated game maps
 app/assets/images/game-maps
+
+# simplecov
+coverage
