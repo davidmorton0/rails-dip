@@ -45,3 +45,7 @@
     <td>Provinces:</td>    <td><%= @game.variant.map.provinces.count%></td>
   </tr>
 </table>
+
+<br>
+
+<%= button_to "Redraw Map", game_path(@game), method: "patch" %>

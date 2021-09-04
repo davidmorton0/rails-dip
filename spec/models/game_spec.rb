@@ -66,7 +66,7 @@ RSpec.describe Game, type: :model do
     end
 
     context 'when there is a generated map image' do
-      let(:current_map) { 'generated-map-id' }
+      let(:current_map) { 'generated-map-id.png' }
 
       before { expect(game).to receive(:file_exists?).and_return(true) }
 

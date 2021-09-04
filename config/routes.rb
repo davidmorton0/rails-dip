@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  resources :games, only: [:show]
+  resources :games, only: [:show, :update]
 end

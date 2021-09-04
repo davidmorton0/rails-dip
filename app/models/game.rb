@@ -44,7 +44,7 @@ class Game < ApplicationRecord
   end
 
   def current_map_image
-    "game-maps/#{current_map}.png"
+    "game-maps/#{current_map}"
   end
 
   def file_exists?
