@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_022839) do
+ActiveRecord::Schema.define(version: 2021_09_08_192503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2021_08_08_022839) do
 
   create_table "move_orders", force: :cascade do |t|
     t.string "order_type"
-    t.integer "target_province"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "year"
@@ -55,8 +54,11 @@ ActiveRecord::Schema.define(version: 2021_08_08_022839) do
     t.boolean "success"
     t.string "fail_reason"
     t.bigint "player_id"
-    t.integer "current_province"
+    t.bigint "target_province_id"
+    t.bigint "current_province_id"
+    t.index ["current_province_id"], name: "index_move_orders_on_current_province_id"
     t.index ["player_id"], name: "index_move_orders_on_player_id"
+    t.index ["target_province_id"], name: "index_move_orders_on_target_province_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -114,6 +116,8 @@ ActiveRecord::Schema.define(version: 2021_08_08_022839) do
   add_foreign_key "build_orders", "provinces"
   add_foreign_key "games", "variants"
   add_foreign_key "move_orders", "players"
+  add_foreign_key "move_orders", "provinces", column: "current_province_id"
+  add_foreign_key "move_orders", "provinces", column: "target_province_id"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
   add_foreign_key "variants", "maps"

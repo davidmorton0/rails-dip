@@ -2,6 +2,9 @@
   <h1>Diplomacy</h1>
 </div>
 
+<h2>Game index</h2>
+<%= link_to "Games Index", games_path %>
+
 <h2>Game Info</h2>
 
 <table class="table">
@@ -24,7 +27,7 @@
     <td>Players:</td>    <td><%= @game.players.count %></td>
   </tr>
   <tr>
-    <td>Countries being played:</td>    <td><%= @game.countries_with_players %></td>
+    <td>Countries being played:</td>    <td><%= safe_join(@game.players.map {|player| link_to player.country, game_player_path(@game, player) }) %></td>
   </tr>
   <tr>
     <td>Units:</td>    <td><%= @game.total_units %></td>

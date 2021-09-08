@@ -1,0 +1,25 @@
+<div class="center jumbotron">
+  <h1>Diplomacy</h1>
+</div>
+
+<h2>All the games</h2>
+
+<table class="table">
+  <tr>
+    <th>Id</th>
+    <th>Variant</th>
+    <th>Season</th>
+    <th>Year</th>
+    <th>Players</th>
+  </tr>
+ 
+  <% @games.each do |game| %>
+    <tr>
+      <td><%= game.id %></td>
+      <td><%= link_to game.variant.name, game_path(game.id) %></td>
+      <td><%= game.season %></td>
+      <td><%= game.year %></td>
+      <td><%= game.players.count %></td>
+    </tr>
+  <% end %>
+</table>

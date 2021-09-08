@@ -1,0 +1,59 @@
+<div class="center jumbotron">
+  <h1>Diplomacy</h1>
+</div>
+
+<h2><%= link_to "Game Info", game_path(@game) %></h2>
+
+ <table class="table">
+  <tr>
+    <td>Game Id:</td>    <td><%= @game.id %></td>
+  </tr>
+  <tr>
+    <td>Variant:</td>    <td><%= @game.variant.name %></td>
+  </tr>
+  <tr>
+    <td>Current Turn:</td>    <td><%= "#{@game.season} #{@game.year}" %></td>
+  </tr>
+  <tr>
+    <td>Country:</td>    <td><%= @player.country %></td>
+  </tr>
+  <tr>
+    <td>Units:</td>    <td><%= @player.units.count %></td>
+  </tr>
+ </table>
+
+<%= image_tag @game.map_image,  style: '100%xauto' %>
+
+<br>
+
+<h2>Map Info</h2>
+
+<table class="table">
+  <tr>
+    <td>Name:</td>    <td><%= @game.variant.map.name%></td>
+  </tr>
+  <tr>
+    <td>Provinces:</td>    <td><%= @game.variant.map.provinces.count%></td>
+  </tr>
+</table>
+
+<br>
+
+<h2>Orders</h2>
+
+<%= form_for @player do |form| %>
+  <ul>
+    <%= form.fields_for :move_orders, @orders do |orders_fields| %>
+      <li>
+        <%= orders_fields.label :order_type %>
+        <%= orders_fields.text_field :class %>
+        <%= orders_fields.label :current_province %>
+        <%= orders_fields.hidden_field :current_province_id %>
+        <%= orders_fields.collection_select :current_province_id, @game.variant.map.provinces, :id, :name, options = {}, html_options = { disabled: 'disabled' } %>
+        <%= orders_fields.label :target_province %>
+        <%= orders_fields.collection_select :target_province_id, @game.variant.map.provinces, :id, :name, include_blank: true %>
+      </li>
+    <% end %>
+  </ul>
+  <%= form.submit "Submit Orders" %>
+<% end %>
