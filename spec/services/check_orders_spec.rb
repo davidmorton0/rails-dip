@@ -3,16 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe CheckOrders do
-  subject { described_class.new(**turn_details) }
+  subject { described_class.new(game: game) }
 
-  let(:turn_details) { { game: game, season: 'Spring', year: 1901 } }
   let(:game) { create(:game) }
   let(:player) { create(:player, game: game) }
   let(:province1) { create(:province) }
   let(:province2) { create(:province, abbreviation: 'RUH') }
   let(:unit) { create(:unit, province: province1) }
   let(:move_order) { create(:move_order, current_province: province1, target_province: province2, **order_details) }
-  let(:order_details) { { player: player, season: 'Spring', year: 1901 } }
+  let(:order_details) { { player: player, season: 'Spring', year: 1900 } }
 
   before do
     move_order
@@ -28,6 +27,8 @@ RSpec.describe CheckOrders do
       end
 
       it 'changes the order to success' do
+        move_order
+
         expect do
           subject.call
           move_order.reload

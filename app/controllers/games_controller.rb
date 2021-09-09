@@ -3,12 +3,13 @@
 class GamesController < ApplicationController
   def show
     @game = Game.find(params['id'])
-    @player = @game.players.first
+
+    @previous_turn_orders = MoveOrder.where(year: @game.previous_turn_year, season: @game.previous_turn_season)
   end
 
   def update
     @game = Game.find(params['id'])
-    DrawMap::DrawMap.new(@game).call
+    ProcessTurn.new(@game).call
 
     redirect_to game_path(@game)
   end

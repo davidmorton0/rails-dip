@@ -9,25 +9,25 @@
 
 <table class="table">
   <tr>
-    <td>Game Id:</td>    <td><%= @game.id %></td>
+    <td>Game Id:</td>                 <td><%= @game.id %></td>
   </tr>
   <tr>
-    <td>Variant:</td>    <td><%= @game.variant.name %></td>
+    <td>Variant:</td>                 <td><%= @game.variant.name %></td>
   </tr>
   <tr>
-    <td>Game Year:</td>    <td><%= @game.year %></td>
+    <td>Game Year:</td>               <td><%= @game.year %></td>
   </tr>
   <tr>
-    <td>Game Season:</td>    <td><%= @game.season %></td>
+    <td>Game Season:</td>             <td><%= @game.season %></td>
   </tr>
   <tr>
-    <td>Countries:</td>    <td><%= @game.country_list %></td>
+    <td>Countries:</td>               <td><%= @game.country_list %></td>
   </tr>
   <tr>
-    <td>Players:</td>    <td><%= @game.players.count %></td>
+    <td>Players:</td>                 <td><%= @game.players.count %></td>
   </tr>
   <tr>
-    <td>Countries being played:</td>    <td><%= safe_join(@game.players.map {|player| link_to player.country, game_player_path(@game, player) }) %></td>
+    <td>Countries being played:</td>  <td><%= safe_join(@game.players.map {|player| link_to player.country, game_player_path(@game, player) }) %></td>
   </tr>
   <tr>
     <td>Units:</td>    <td><%= @game.total_units %></td>
@@ -42,13 +42,33 @@
 
 <table class="table">
   <tr>
-    <td>Name:</td>    <td><%= @game.variant.map.name%></td>
+    <td>Name:</td>      <td><%= @game.variant.map.name%></td>
   </tr>
   <tr>
-    <td>Provinces:</td>    <td><%= @game.variant.map.provinces.count%></td>
+    <td>Provinces:</td> <td><%= @game.variant.map.provinces.count%></td>
   </tr>
 </table>
 
 <br>
 
-<%= button_to "Redraw Map", game_path(@game), method: "patch" %>
+<h2>Orders from Previous Turn</h2>
+
+<table class="table">
+  <tr>
+    <th>Player</th>
+    <th>Order</th>
+    <th>Result</th>
+  </tr>
+ 
+  <% @previous_turn_orders.each do |order| %>
+    <tr>
+      <td><%= order.player.country %></td>
+      <td><%= order.description %></td>
+      <td><%= order.result %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br>
+
+<%= button_to "Process Turn", game_path(@game), method: "patch" %>

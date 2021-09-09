@@ -6,19 +6,19 @@
 
  <table class="table">
   <tr>
-    <td>Game Id:</td>    <td><%= @game.id %></td>
+    <td>Game Id:</td>       <td><%= @game.id %></td>
   </tr>
   <tr>
-    <td>Variant:</td>    <td><%= @game.variant.name %></td>
+    <td>Variant:</td>       <td><%= @game.variant.name %></td>
   </tr>
   <tr>
-    <td>Current Turn:</td>    <td><%= "#{@game.season} #{@game.year}" %></td>
+    <td>Current Turn:</td>  <td><%= "#{@game.season} #{@game.year}" %></td>
   </tr>
   <tr>
-    <td>Country:</td>    <td><%= @player.country %></td>
+    <td>Country:</td>       <td><%= @player.country %></td>
   </tr>
   <tr>
-    <td>Units:</td>    <td><%= @player.units.count %></td>
+    <td>Units:</td>         <td><%= @player.units.count %></td>
   </tr>
  </table>
 
@@ -30,10 +30,10 @@
 
 <table class="table">
   <tr>
-    <td>Name:</td>    <td><%= @game.variant.map.name%></td>
+    <td>Name:</td>          <td><%= @game.variant.map.name%></td>
   </tr>
   <tr>
-    <td>Provinces:</td>    <td><%= @game.variant.map.provinces.count%></td>
+    <td>Provinces:</td>     <td><%= @game.variant.map.provinces.count%></td>
   </tr>
 </table>
 

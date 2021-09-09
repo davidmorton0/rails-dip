@@ -11,8 +11,19 @@ class Game < ApplicationRecord
   validates :year, presence: true
 
   def move_to_next_season
-    self.season = next_season
-    self.year += 1 if season == 'Spring'
+    new_year = year
+    new_year += 1 if season == 'Winter'
+    update(season: next_season, year: new_year)
+  end
+
+  def previous_turn_season
+    SEASONS[(SEASONS.index(season) - 1) % 3]
+  end
+
+  def previous_turn_year
+    return year - 1 if season == 'Spring'
+
+    year
   end
 
   def country_list

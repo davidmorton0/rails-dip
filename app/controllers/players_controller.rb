@@ -20,13 +20,13 @@ class PlayersController < ApplicationController
 
         move_order.update(target_province_id: order_params[:target_province_id])
       else
-        create_move_order(player)
+        create_move_order(player, order_params)
       end
     end
     redirect_to game_player_path([player.game.id, player.id])
   end
 
-  def create_move_order(player)
+  def create_move_order(player, order_params)
     MoveOrder.create(
       target_province_id: order_params[:target_province_id],
       current_province_id: order_params[:current_province_id],
@@ -37,10 +37,10 @@ class PlayersController < ApplicationController
   end
 
   def move_order_params
-    move_order_params = params.fetch(:player).fetch(:move_orders_attributes)
-    keys = move_order_params.keys
+    order_params = params.fetch(:player).fetch(:move_orders_attributes)
+    keys = order_params.keys
     keys.map do |key|
-      move_order_params.fetch(key).permit(:id, :class, :current_province_id, :target_province_id)
+      order_params.fetch(key).permit(:id, :class, :current_province_id, :target_province_id)
     end
   end
 
