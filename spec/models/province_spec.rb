@@ -73,6 +73,5 @@ RSpec.describe Province, type: :model do
     it 'shows the adjacent provinces' do
       expect(subject.adjacent_provinces).to eq [province1]
     end
-
   end
 end
