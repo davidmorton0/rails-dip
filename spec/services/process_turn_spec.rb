@@ -31,7 +31,7 @@ RSpec.describe ProcessTurn do
 
   it 'processes orders' do
     process_orders = instance_double(ProcessOrders)
-    expect(ProcessOrders).to receive(:new).with(game).and_return(process_orders)
+    expect(ProcessOrders).to receive(:new).with(game: game).and_return(process_orders)
     expect(process_orders).to receive(:call)
 
     subject
