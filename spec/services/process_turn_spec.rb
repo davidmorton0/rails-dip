@@ -7,6 +7,12 @@ RSpec.describe ProcessTurn do
   let(:player) { create(:player, game: game) }
   let(:move_order) { create(:move_order, player: player, target_province: nil) }
 
+  before do
+    draw_map = instance_double(DrawMap::DrawMap)
+    expect(DrawMap::DrawMap).to receive(:new).with(game).and_return(draw_map)
+    expect(draw_map).to receive(:call)
+  end
+
   it 'changes the turn' do
     expect do
       subject
@@ -25,7 +31,7 @@ RSpec.describe ProcessTurn do
 
   it 'processes orders' do
     process_orders = instance_double(ProcessOrders)
-    expect(ProcessOrders).to receive(:new).and_return(process_orders)
+    expect(ProcessOrders).to receive(:new).with(game).and_return(process_orders)
     expect(process_orders).to receive(:call)
 
     subject
