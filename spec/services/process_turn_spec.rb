@@ -6,6 +6,7 @@ RSpec.describe ProcessTurn do
   let(:game) { create(:game, year: 1901, season: 'Spring') }
   let(:player) { create(:player, game: game) }
   let(:move_order) { create(:move_order, player: player, target_province: nil) }
+  let(:unit) { create(:unit, player: player) }
 
   before do
     draw_map = instance_double(DrawMap::DrawMap)
@@ -35,5 +36,11 @@ RSpec.describe ProcessTurn do
     expect(process_orders).to receive(:call)
 
     subject
+  end
+
+  it 'creates new orders' do
+    unit
+
+    expect { subject }.to change(MoveOrder, :count).from(0).to(1)
   end
 end
