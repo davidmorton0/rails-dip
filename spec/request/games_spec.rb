@@ -8,7 +8,6 @@ RSpec.describe 'Games', type: :request, aggregate_failures: true do
   describe 'index page' do
     context 'when there are no games' do
       it 'shows an empty list' do
-        expect(Game.count).to eq 0
         get games_path
         expect(response).to be_successful
         expect(response.body).to include('Game List')

@@ -39,9 +39,10 @@ class Game < ApplicationRecord
   end
 
   def map_image
-    return current_map_image if current_map && file_exists?
+    return default_map unless current_map
+    return default_map unless File.exist?(map_file_path)
 
-    default_map
+    current_map_image
   end
 
   private
@@ -58,7 +59,7 @@ class Game < ApplicationRecord
     "game-maps/#{current_map}"
   end
 
-  def file_exists?
-    File.exist?(Rails.root.join('app/assets/images', current_map_image))
+  def map_file_path
+    Rails.root.join('app/assets/images', current_map_image)
   end
 end
