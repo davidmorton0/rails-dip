@@ -11,8 +11,19 @@ class Game < ApplicationRecord
   validates :year, presence: true
 
   def move_to_next_season
-    self.season = next_season
-    self.year += 1 if season == 'Spring'
+    new_year = year
+    new_year += 1 if season == 'Winter'
+    update(season: next_season, year: new_year)
+  end
+
+  def previous_turn_season
+    SEASONS[(SEASONS.index(season) - 1) % 3]
+  end
+
+  def previous_turn_year
+    return year - 1 if season == 'Spring'
+
+    year
   end
 
   def country_list
@@ -28,9 +39,10 @@ class Game < ApplicationRecord
   end
 
   def map_image
-    return current_map_image if current_map && file_exists?
+    return default_map unless current_map
+    return default_map unless File.exist?(map_file_path)
 
-    default_map
+    current_map_image
   end
 
   private
@@ -44,10 +56,10 @@ class Game < ApplicationRecord
   end
 
   def current_map_image
-    "game-maps/#{current_map}.png"
+    "game-maps/#{current_map}"
   end
 
-  def file_exists?
-    File.exist?(Rails.root.join('app/assets/images', current_map_image))
+  def map_file_path
+    Rails.root.join('app/assets/images', current_map_image)
   end
 end

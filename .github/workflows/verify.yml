@@ -87,7 +87,7 @@ jobs:
       - name: Setup test database
 
         run: |
-          bin/rails db:setup
+          bin/rails db:create
         env:
           RAILS_ENV: test
           POSTGRES_USER: rails_dip

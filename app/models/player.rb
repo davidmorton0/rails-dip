@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   has_many :build_orders
   has_many :move_orders
   has_many :units
+  accepts_nested_attributes_for :move_orders
 
   validates :country, :game, :supply, presence: true
 
@@ -24,5 +25,9 @@ class Player < ApplicationRecord
       season: season,
       unit_type: unit_type,
     )
+  end
+
+  def move_orders_attributes=(attributes)
+    # Process the attributes hash
   end
 end

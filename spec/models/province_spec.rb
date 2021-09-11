@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Province, type: :model do
-  subject { described_class.new(name: 'Munich', abbreviation: 'MUN', supply_center: true) }
+  subject { described_class.new(name: 'Munich', abbreviation: 'MUN', supply_center: true, map: map) }
+
+  let(:map) { build(:map) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:abbreviation) }
@@ -55,6 +57,21 @@ RSpec.describe Province, type: :model do
       expect(province1.adjacent?(province2)).to eq true
       expect(province2.adjacent?(subject)).to eq false
       expect(province2.adjacent?(province1)).to eq true
+    end
+  end
+
+  describe '#adjacent_provinces' do
+    let(:province1) { build(:province, map: map) }
+    let(:province2) { build(:province, map: map) }
+
+    before do
+      map
+      create(:province_link, province: subject, links_to: province1)
+      create(:province_link, province: province1, links_to: province2)
+    end
+
+    it 'shows the adjacent provinces' do
+      expect(subject.adjacent_provinces).to eq [province1]
     end
   end
 end

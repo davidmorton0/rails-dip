@@ -12,4 +12,8 @@ class Province < ApplicationRecord
     ProvinceLink.where(province: self, links_to: province.id).any? ||
       ProvinceLink.where(province: province, links_to: id).any?
   end
+
+  def adjacent_provinces
+    map.provinces.select { |province| adjacent?(province) }
+  end
 end
