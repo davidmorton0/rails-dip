@@ -8,6 +8,7 @@ RSpec.describe 'Games', type: :request, aggregate_failures: true do
   describe 'index page' do
     context 'when there are no games' do
       it 'shows an empty list' do
+        expect(Game.count).to eq 0
         get games_path
         expect(response).to be_successful
         expect(response.body).to include('Game List')
@@ -27,8 +28,6 @@ RSpec.describe 'Games', type: :request, aggregate_failures: true do
   end
 
   describe 'show game page' do
-    let(:game) { create(:game, season: 'Autumn') }
-
     context 'when there is a game with no previous orders' do
       it 'shows a game' do
         game
