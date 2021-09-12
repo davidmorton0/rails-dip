@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Rails Diplomacy Server
 
-Things you may want to cover:
+This is a diplomacy server written in Ruby on Rails that can be used to host games.
 
-* Ruby version
+It is currently in development.
 
-* System dependencies
+## Installation
+* Clones the repo
+* Install ruby version
+* Install node
+* `bundle install`
+* `yarn install`
 
-* Configuration
 
-* Database creation
+## Usage
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Use `rails s` to run the server.
+* Go to `rails-diplomacy.com` to see the main page.
