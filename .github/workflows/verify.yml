@@ -94,4 +94,5 @@ jobs:
           POSTGRES_PASSWORD: password1234
 
       - name: Run tests
-        run: bin/rspec --tag ~@seeds
+        run: bin/rspec
+        
