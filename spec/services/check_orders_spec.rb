@@ -10,7 +10,7 @@ RSpec.describe CheckOrders do
   let(:province1) { create(:province) }
   let(:province2) { create(:province, abbreviation: 'RUH') }
   let(:unit) { create(:unit, province: province1, player: player) }
-  let(:move_order) { create(:move_order, current_province: province1, target_province: province2, **order_details) }
+  let(:move_order) { create(:move_order, origin_province: province1, target_province: province2, **order_details) }
   let(:order_details) { { player: player, season: 'Spring', year: 1900 } }
   let(:province_link) { create(:province_link, province: province1, links_to: province2) }
 
@@ -25,19 +25,7 @@ RSpec.describe CheckOrders do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(true).and(not_change(move_order, :fail_reason))
-    end
-  end
-
-  context 'when no target province is provided' do
-    let(:province_link) { nil }
-    let(:province2) { nil }
-
-    it 'changes the order to failed' do
-      expect do
-        subject
-        move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :fail_reason).to('No target province given'))
+      end.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
     end
   end
 
@@ -49,7 +37,7 @@ RSpec.describe CheckOrders do
         subject
         move_order.reload
       end.to change(move_order, :success).to(false)
-        .and(change(move_order, :fail_reason).to('Target province not adjacent'))
+        .and(change(move_order, :failure_reason).to('Target province not adjacent'))
     end
   end
 
@@ -64,35 +52,35 @@ RSpec.describe CheckOrders do
         subject
         move_order.reload
       end.to change(move_order, :success).to(false)
-        .and(change(move_order, :fail_reason).to('Army cannot move to Water province'))
+        .and(change(move_order, :failure_reason).to('Army cannot move to Water province'))
     end
   end
 
   context 'when there is a stationary unit in the target province' do
     before do
       create(:unit, province: province2, player: player)
-      create(:move_order, current_province: province2, target_province: nil, **order_details)
+      create(:hold_order, origin_province: province2, **order_details)
     end
 
     it 'changes the order to failed' do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :fail_reason).to('Blocked'))
+      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
   context 'when two units are exchanging position' do
     before do
       create(:unit, province: province2, player: player)
-      create(:move_order, current_province: province2, target_province: province1, **order_details)
+      create(:move_order, origin_province: province2, target_province: province1, **order_details)
     end
 
     it 'changes the order to failed' do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :fail_reason).to('Blocked'))
+      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
@@ -102,14 +90,14 @@ RSpec.describe CheckOrders do
     before do
       create(:unit, province: province3, player: player)
       create(:province_link, province: province2, links_to: province3)
-      create(:move_order, current_province: province3, target_province: province2, **order_details)
+      create(:move_order, origin_province: province3, target_province: province2, **order_details)
     end
 
     it 'changes the order to failed' do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :fail_reason).to('Blocked'))
+      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
@@ -121,15 +109,15 @@ RSpec.describe CheckOrders do
       create(:unit, province: province2, player: player)
       create(:province_link, province: province2, links_to: province3)
       create(:province_link, province: province3, links_to: province1)
-      create(:move_order, current_province: province2, target_province: province3, **order_details)
-      create(:move_order, current_province: province3, target_province: province1, **order_details)
+      create(:move_order, origin_province: province2, target_province: province3, **order_details)
+      create(:move_order, origin_province: province3, target_province: province1, **order_details)
     end
 
     it 'changes the order to success' do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(true).and(not_change(move_order, :fail_reason))
+      end.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
     end
   end
 
@@ -141,15 +129,15 @@ RSpec.describe CheckOrders do
       create(:unit, province: province2, player: player)
       create(:province_link, province: province2, links_to: province3)
       create(:province_link, province: province3, links_to: province2)
-      create(:move_order, current_province: province2, target_province: province3, **order_details)
-      create(:move_order, current_province: province3, target_province: nil, **order_details)
+      create(:move_order, origin_province: province2, target_province: province3, **order_details)
+      create(:move_order, origin_province: province3, target_province: create(:province), **order_details)
     end
 
     it 'changes the order to failed' do
       expect do
         subject
         move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :fail_reason).to('Blocked'))
+      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 end

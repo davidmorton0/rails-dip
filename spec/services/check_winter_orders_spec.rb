@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe CheckWinterOrders do
   subject { described_class.new(game: game) }
 
-  let(:build_order) { create(:build_order, province: province, player: player, year: 1902) }
-  let(:past_build_order) { create(:build_order, province: province, player: player, year: 1901) }
-  let(:province) { create(:province) }
+  let(:build_order) { create(:build_order, origin_province: origin_province, player: player, year: 1902) }
+  let(:past_build_order) { create(:build_order, origin_province: origin_province, player: player, year: 1901) }
+  let(:origin_province) { create(:province) }
   let(:player) { create(:player, game: game, supply: 1) }
   let(:game) { create(:game, year: 1902, season: 'Winter') }
 
@@ -25,7 +25,7 @@ RSpec.describe CheckWinterOrders do
         end.to change(build_order, :success).to(true)
           .and(not_change(past_build_order, :success))
 
-        expect(build_order.fail_reason).to eq(nil)
+        expect(build_order.failure_reason).to eq(nil)
       end
     end
 
@@ -39,13 +39,13 @@ RSpec.describe CheckWinterOrders do
         end.to change(build_order, :success).to(false)
           .and(not_change(past_build_order, :success))
 
-        expect(build_order.fail_reason).to eq('Player does not have enough supply to build')
+        expect(build_order.failure_reason).to eq('Player does not have enough supply to build')
       end
     end
 
     context 'when more build orders are given than available supply', :aggregate_failures do
       let(:additional_build_order) do
-        create(:build_order, province: create(:province), player: player, season: 'Winter', year: 1902)
+        create(:build_order, origin_province: create(:province), player: player, season: 'Winter', year: 1902)
       end
 
       let(:orders) { [build_order, build_order_2] }
@@ -59,14 +59,14 @@ RSpec.describe CheckWinterOrders do
           .and(change(additional_build_order, :success).to(false))
           .and(not_change(past_build_order, :success))
 
-        expect(build_order.fail_reason).to eq('Player has issued too many build orders')
-        expect(additional_build_order.fail_reason).to eq('Player has issued too many build orders')
+        expect(build_order.failure_reason).to eq('Player has issued too many build orders')
+        expect(additional_build_order.failure_reason).to eq('Player has issued too many build orders')
       end
     end
 
     context 'when the two build orders are given for the same province', :aggregate_failures do
       let(:additional_build_order) do
-        create(:build_order, province: province, player: player, season: 'Winter', year: 1902)
+        create(:build_order, origin_province: origin_province, player: player, season: 'Winter', year: 1902)
       end
       let(:player) { create(:player, game: game, supply: 2) }
 
@@ -78,7 +78,7 @@ RSpec.describe CheckWinterOrders do
         end.to change(build_order, :success).to(true)
           .and(change(additional_build_order, :success).to(false))
 
-        expect(additional_build_order.fail_reason).to eq('More than one build order for the same province')
+        expect(additional_build_order.failure_reason).to eq('More than one build order for the same province')
       end
     end
   end

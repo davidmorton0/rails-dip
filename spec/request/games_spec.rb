@@ -45,7 +45,9 @@ RSpec.describe 'Games', type: :request, aggregate_failures: true do
 
     context 'when there are previous orders' do
       let(:player) { create(:player, game: game) }
-      let(:move_order) { create(:move_order, player: player, season: 'Spring', year: game.year, fail_reason: 'Failed') }
+      let(:move_order) do
+        create(:move_order, player: player, season: 'Spring', year: game.year, failure_reason: 'Failed')
+      end
 
       it 'shows a previous order' do
         move_order

@@ -6,7 +6,7 @@ RSpec.describe ProcessOrders do
   let(:game) { create(:game, year: 1901, season: 'Spring') }
   let(:player) { create(:player, game: game) }
   let(:move_order) do
-    create(:move_order, player: player, current_province: province1, target_province: province2, success: true)
+    create(:move_order, player: player, origin_province: province1, target_province: province2, success: true)
   end
   let(:province1) { create(:province) }
   let(:province2) { create(:province) }

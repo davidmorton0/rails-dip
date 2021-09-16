@@ -47,11 +47,11 @@
       <li>
         <%= orders_fields.label :order_type %>
         <%= orders_fields.text_field :class %>
-        <%= orders_fields.label :current_province %>
-        <%= orders_fields.hidden_field :current_province_id %>
-        <%= orders_fields.collection_select :current_province_id, [orders_fields.object.current_province], :id, :name, options = {}, html_options = { disabled: 'disabled' } %>
+        <%= orders_fields.label :origin_province %>
+        <%= orders_fields.hidden_field :origin_province_id %>
+        <%= orders_fields.collection_select :origin_province_id, [orders_fields.object.origin_province], :id, :name, options = {}, html_options = { disabled: 'disabled' } %>
         <%= orders_fields.label :target_province %>
-        <%= orders_fields.collection_select :target_province_id, orders_fields.object.current_province.adjacent_provinces, :id, :name, include_blank: true %>
+        <%= orders_fields.collection_select :target_province_id, orders_fields.object.origin_province.adjacent_provinces, :id, :name, include_blank: true %>
       </li>
     <% end %>
   </ul>

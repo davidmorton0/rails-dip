@@ -8,7 +8,7 @@ class ProcessOrders
 
   def call
     orders.each do |order|
-      unit = Unit.where(player: game.players, province: order.current_province).first
+      unit = Unit.where(player: game.players, province: order.origin_province).first
       unit.province = order.target_province
       unit.save
     end

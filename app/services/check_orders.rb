@@ -20,9 +20,9 @@ class CheckOrders
 
   def process_initial_order_failures
     orders.each do |order|
-      unit = Unit.find_by(province: order.current_province, player: players)
+      unit = Unit.find_by(province: order.origin_province, player: players)
       if initial_order_failure?(order: order, unit: unit)
-        order.update(success: false, fail_reason: @fail_reason)
+        order.update(success: false, failure_reason: @failure_reason)
       end
     end
   end
@@ -48,7 +48,7 @@ class CheckOrders
 
   def check_blocked_units(order)
     if blocked_unit_in_target_province?(order: order)
-      order.update(success: false, fail_reason: 'Blocked')
+      order.update(success: false, failure_reason: 'Blocked')
       return true
     end
 
@@ -63,7 +63,6 @@ class CheckOrders
   end
 
   def initial_order_failure?(order:, unit:)
-    return true unless target_province_provided?(order)
     return true unless provinces_adjacent?(unit.province, order.target_province)
     return true unless correct_province_type?(unit.unit_type, order.target_province.province_type)
     return true if stationary_unit_in_target_province?(order)
@@ -79,7 +78,7 @@ class CheckOrders
   end
 
   def blocked_unit_in_target_province?(order:)
-    MoveOrder.where(player: players, current_province: order.target_province, success: false).any?
+    MoveOrder.where(player: players, origin_province: order.target_province, success: false).any?
   end
 
   def two_units_entering_same_province?(order)
@@ -89,24 +88,18 @@ class CheckOrders
   end
 
   def two_units_exchanging_position?(order)
-    return false if MoveOrder.where(target_province: order.current_province,
-                                    current_province: order.target_province).none?
+    return false if MoveOrder.where(target_province: order.origin_province,
+                                    origin_province: order.target_province).none?
 
     blocked
   end
 
   def stationary_unit_in_target_province?(order)
     return false if Unit.find_by(province: order.target_province, player: players).nil?
-    return false if MoveOrder.where(current_province: order.target_province,
+    return false if MoveOrder.where(origin_province: order.target_province,
                                     player: players).where.not(target_province: nil).any?
 
     blocked
-  end
-
-  def target_province_provided?(order)
-    return true if order.target_province.present?
-
-    fail_with_reason('No target province given')
   end
 
   def provinces_adjacent?(province1, province2)
@@ -122,12 +115,12 @@ class CheckOrders
   end
 
   def blocked
-    @fail_reason = 'Blocked'
+    @failure_reason = 'Blocked'
     true
   end
 
   def fail_with_reason(reason)
-    @fail_reason = reason
+    @failure_reason = reason
     false
   end
 end

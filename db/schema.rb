@@ -10,24 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_08_192503) do
+ActiveRecord::Schema.define(version: 2021_09_16_194042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "build_orders", force: :cascade do |t|
-    t.bigint "province_id", null: false
-    t.string "unit_type"
-    t.bigint "player_id", null: false
-    t.integer "year"
-    t.string "season"
-    t.boolean "success"
-    t.string "fail_reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["player_id"], name: "index_build_orders_on_player_id"
-    t.index ["province_id"], name: "index_build_orders_on_province_id"
-  end
 
   create_table "games", force: :cascade do |t|
     t.integer "year"
@@ -45,20 +31,21 @@ ActiveRecord::Schema.define(version: 2021_09_08_192503) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "move_orders", force: :cascade do |t|
-    t.string "order_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table "orders", force: :cascade do |t|
+    t.string "type"
+    t.string "unit_type"
     t.integer "year"
     t.string "season"
     t.boolean "success"
-    t.string "fail_reason"
-    t.bigint "player_id"
+    t.string "failure_reason"
+    t.bigint "player_id", null: false
+    t.bigint "origin_province_id"
     t.bigint "target_province_id"
-    t.bigint "current_province_id"
-    t.index ["current_province_id"], name: "index_move_orders_on_current_province_id"
-    t.index ["player_id"], name: "index_move_orders_on_player_id"
-    t.index ["target_province_id"], name: "index_move_orders_on_target_province_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["origin_province_id"], name: "index_orders_on_origin_province_id"
+    t.index ["player_id"], name: "index_orders_on_player_id"
+    t.index ["target_province_id"], name: "index_orders_on_target_province_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -112,12 +99,10 @@ ActiveRecord::Schema.define(version: 2021_09_08_192503) do
     t.index ["map_id"], name: "index_variants_on_map_id"
   end
 
-  add_foreign_key "build_orders", "players"
-  add_foreign_key "build_orders", "provinces"
   add_foreign_key "games", "variants"
-  add_foreign_key "move_orders", "players"
-  add_foreign_key "move_orders", "provinces", column: "current_province_id"
-  add_foreign_key "move_orders", "provinces", column: "target_province_id"
+  add_foreign_key "orders", "players"
+  add_foreign_key "orders", "provinces", column: "origin_province_id"
+  add_foreign_key "orders", "provinces", column: "target_province_id"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
   add_foreign_key "variants", "maps"

@@ -25,7 +25,7 @@ class CheckWinterOrders
   attr_reader :players, :game, :build_orders
 
   def fail_order(order, reason)
-    order.update(success: false, fail_reason: reason)
+    order.update(success: false, failure_reason: reason)
   end
 
   def excess_supply?(player)
@@ -37,7 +37,7 @@ class CheckWinterOrders
   end
 
   def duplicate_order?(order, player)
-    similar_orders = BuildOrder.where(player: player, year: game.year, province: order.province)
+    similar_orders = BuildOrder.where(player: player, year: game.year, origin_province: order.origin_province)
     similar_orders.count > 1 && similar_orders.first != order
   end
 

@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
   def show
     @player = Player.find(params['id'])
     @game = @player.game
-    @orders = MoveOrder.where(player: @player, year: @game.year, season: @game.season).order(:current_province_id, :id)
+    @orders = MoveOrder.where(player: @player, year: @game.year, season: @game.season).order(:origin_province_id, :id)
   end
 
   def update
@@ -24,7 +24,7 @@ class PlayersController < ApplicationController
     order_params = params.fetch(:player).fetch(:move_orders_attributes)
     keys = order_params.keys
     keys.map do |key|
-      order_params.fetch(key).permit(:id, :class, :current_province_id, :target_province_id)
+      order_params.fetch(key).permit(:id, :class, :origin_province_id, :target_province_id)
     end
   end
 

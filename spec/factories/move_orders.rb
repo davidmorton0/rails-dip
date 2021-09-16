@@ -2,8 +2,7 @@
 
 FactoryBot.define do
   factory :move_order do
-    order_type { 'Move' }
-    current_province { build(:province) }
+    origin_province { build(:province) }
     target_province { build(:province) }
     year { 1901 }
     season { 'Spring' }
