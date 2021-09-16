@@ -12,14 +12,14 @@ RSpec.describe MoveOrder do # , type: :model do
   it { is_expected.to validate_presence_of(:season) }
 
   describe '#description' do
-    let(:attributes) { { current_province: current_province, target_province: target_province } }
-    let(:current_province) { build(:province) }
+    let(:attributes) { { origin_province: origin_province, target_province: target_province } }
+    let(:origin_province) { build(:province) }
 
     context 'when a target province is provided' do
       let(:target_province) { build(:province) }
 
       it 'describes the order' do
-        expect(subject.description).to eq "Move from #{current_province.name} to #{target_province.name}"
+        expect(subject.description).to eq "Move from #{origin_province.name} to #{target_province.name}"
       end
     end
 
@@ -33,9 +33,9 @@ RSpec.describe MoveOrder do # , type: :model do
   end
 
   describe '#result' do
-    let(:attributes) { { success: success, fail_reason: fail_reason } }
+    let(:attributes) { { success: success, failure_reason: failure_reason } }
     let(:success) { true }
-    let(:fail_reason) { nil }
+    let(:failure_reason) { nil }
 
     context 'when the order succeeded' do
       it 'describes the order' do
@@ -47,15 +47,15 @@ RSpec.describe MoveOrder do # , type: :model do
       let(:success) { false }
 
       context 'when a fail reason is given' do
-        let(:fail_reason) { 'Army cannot move to water' }
+        let(:failure_reason) { 'Army cannot move to water' }
 
         it 'describes the fail reason' do
-          expect(subject.result).to eq "Failed - #{fail_reason}"
+          expect(subject.result).to eq "Failed - #{failure_reason}"
         end
       end
 
       context 'when no fail reason is given' do
-        let(:fail_reason) { nil }
+        let(:failure_reason) { nil }
 
         it 'describes the fail reason' do
           expect(subject.result).to eq 'Was not processed'

@@ -22,7 +22,7 @@ class ProcessTurn
     game.players.each do |player|
       player.units.each do |unit|
         MoveOrder.create(target_province: nil,
-                         current_province: unit.province,
+                         origin_province: unit.province,
                          player: player,
                          year: game.year,
                          season: game.season)

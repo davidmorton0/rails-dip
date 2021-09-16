@@ -14,7 +14,7 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
 
   let(:unit) { create(:unit, province: province1, player: player) }
   let(:move_order) do
-    create(:move_order, player: player, current_province: province1, target_province: province2, **turn)
+    create(:move_order, player: player, origin_province: province1, target_province: province2, **turn)
   end
 
   describe 'show page' do
@@ -58,7 +58,7 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
     let(:params) do
       { 'player' => { 'move_orders_attributes' => {
         '0' => { 'class' => 'MoveOrder',
-                 'current_province_id' => move_order.current_province_id.to_s,
+                 'origin_province_id' => move_order.origin_province_id.to_s,
                  'target_province_id' => province3.id.to_s,
                  'id' => move_order.id.to_s },
       } },
