@@ -21,8 +21,7 @@ class ProcessTurn
   def create_new_orders
     game.players.each do |player|
       player.units.each do |unit|
-        MoveOrder.create(target_province: nil,
-                         origin_province: unit.province,
+        HoldOrder.create(origin_province: unit.province,
                          player: player,
                          year: game.year,
                          season: game.season)

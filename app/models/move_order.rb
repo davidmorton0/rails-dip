@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class MoveOrder < Order
-  belongs_to :player
-  belongs_to :target_province, class_name: 'Province', optional: true
-  belongs_to :origin_province, class_name: 'Province'
+  belongs_to :target_province, class_name: 'Province'
 
-  validates :player, :year, :season, presence: true
+  validates :unit_type, presence: false
 
   def description
     if target_province

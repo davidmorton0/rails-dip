@@ -63,7 +63,6 @@ class CheckOrders
   end
 
   def initial_order_failure?(order:, unit:)
-    return true unless target_province_provided?(order)
     return true unless provinces_adjacent?(unit.province, order.target_province)
     return true unless correct_province_type?(unit.unit_type, order.target_province.province_type)
     return true if stationary_unit_in_target_province?(order)
@@ -101,12 +100,6 @@ class CheckOrders
                                     player: players).where.not(target_province: nil).any?
 
     blocked
-  end
-
-  def target_province_provided?(order)
-    return true if order.target_province.present?
-
-    fail_with_reason('No target province given')
   end
 
   def provinces_adjacent?(province1, province2)

@@ -7,9 +7,7 @@ RSpec.describe MoveOrder do # , type: :model do
 
   let(:attributes) { {} }
 
-  it { is_expected.to validate_presence_of(:player) }
-  it { is_expected.to validate_presence_of(:year) }
-  it { is_expected.to validate_presence_of(:season) }
+  it { is_expected.to belong_to(:target_province) }
 
   describe '#description' do
     let(:attributes) { { origin_province: origin_province, target_province: target_province } }

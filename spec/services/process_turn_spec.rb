@@ -5,8 +5,11 @@ RSpec.describe ProcessTurn do
 
   let(:game) { create(:game, year: 1901, season: 'Spring') }
   let(:player) { create(:player, game: game) }
-  let(:move_order) { create(:move_order, player: player, target_province: nil) }
-  let(:unit) { create(:unit, player: player) }
+  let(:province) { create(:province) }
+  let(:move_order) {
+    create(:move_order, player: player, origin_province: province, target_province: create(:province))
+  }
+  let(:unit) { create(:unit, player: player, province: province) }
 
   before do
     draw_map = instance_double(DrawMap::DrawMap)
@@ -23,6 +26,7 @@ RSpec.describe ProcessTurn do
 
   it 'checks a failed order' do
     move_order
+    unit
 
     expect do
       subject
@@ -41,6 +45,6 @@ RSpec.describe ProcessTurn do
   it 'creates new orders' do
     unit
 
-    expect { subject }.to change(MoveOrder, :count).from(0).to(1)
+    expect { subject }.to change(HoldOrder, :count).from(0).to(1)
   end
 end
