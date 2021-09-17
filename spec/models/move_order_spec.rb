@@ -7,7 +7,8 @@ RSpec.describe MoveOrder do # , type: :model do
 
   let(:attributes) { {} }
 
-  it { is_expected.to belong_to(:target_province) }
+  it { is_expected.to belong_to(:target_province).class_name('Province') }
+  it { is_expected.to validate_absence_of(:unit_type) }
 
   describe '#description' do
     let(:attributes) { { origin_province: origin_province, target_province: target_province } }

@@ -5,10 +5,8 @@ class Game < ApplicationRecord
 
   belongs_to :variant
   has_many :players
-  has_many :units, through: :player
-
-  validates :season, inclusion: { in: %w[Spring Autumn Winter] }
-  validates :year, presence: true
+  has_many :units, through: :players
+  has_many :turns
 
   def move_to_next_season
     new_year = year

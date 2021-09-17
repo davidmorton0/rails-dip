@@ -7,5 +7,6 @@ FactoryBot.define do
     season { 'Spring' }
     player { build(:player) }
     target_province { build(:province) }
+    turn { build(:turn) }
   end
 end

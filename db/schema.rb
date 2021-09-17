@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_194042) do
+ActiveRecord::Schema.define(version: 2021_09_17_201437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +43,11 @@ ActiveRecord::Schema.define(version: 2021_09_16_194042) do
     t.bigint "target_province_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "turn_id", null: false
     t.index ["origin_province_id"], name: "index_orders_on_origin_province_id"
     t.index ["player_id"], name: "index_orders_on_player_id"
     t.index ["target_province_id"], name: "index_orders_on_target_province_id"
+    t.index ["turn_id"], name: "index_orders_on_turn_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -77,6 +79,15 @@ ActiveRecord::Schema.define(version: 2021_09_16_194042) do
     t.index ["map_id"], name: "index_provinces_on_map_id"
   end
 
+  create_table "turns", force: :cascade do |t|
+    t.integer "year"
+    t.string "season"
+    t.bigint "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_turns_on_game_id"
+  end
+
   create_table "units", force: :cascade do |t|
     t.bigint "province_id"
     t.string "unit_type"
@@ -103,7 +114,9 @@ ActiveRecord::Schema.define(version: 2021_09_16_194042) do
   add_foreign_key "orders", "players"
   add_foreign_key "orders", "provinces", column: "origin_province_id"
   add_foreign_key "orders", "provinces", column: "target_province_id"
+  add_foreign_key "orders", "turns"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
+  add_foreign_key "turns", "games"
   add_foreign_key "variants", "maps"
 end

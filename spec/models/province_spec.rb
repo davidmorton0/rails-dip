@@ -7,8 +7,14 @@ RSpec.describe Province, type: :model do
 
   let(:map) { build(:map) }
 
-  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to have_one(:province_link) }
+  it { is_expected.to belong_to(:map) }
+
   it { is_expected.to validate_presence_of(:abbreviation) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:x_pos) }
+  it { is_expected.to validate_presence_of(:y_pos) }
+
   it { is_expected.to validate_inclusion_of(:province_type).in_array(%w[Coastal Inland Water]) }
 
   it 'returns the province name' do

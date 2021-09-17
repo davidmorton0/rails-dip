@@ -5,8 +5,11 @@ RSpec.describe Game, type: :model do
 
   let(:attributes) { {} }
 
-  it { is_expected.to validate_presence_of(:year) }
-  it { is_expected.to validate_inclusion_of(:season).in_array(%w[Spring Autumn Winter]) }
+  it { is_expected.to belong_to(:variant) }
+
+  it { is_expected.to have_many(:players) }
+  it { is_expected.to have_many(:units) }
+  it { is_expected.to have_many(:turns) }
 
   describe '#move_to_next_season' do
     let(:attributes) { { season: season } }

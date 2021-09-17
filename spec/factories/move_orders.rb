@@ -7,5 +7,6 @@ FactoryBot.define do
     year { 1901 }
     season { 'Spring' }
     player { build(:player) }
+    turn { build(:turn) }
   end
 end

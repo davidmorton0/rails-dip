@@ -42,7 +42,7 @@ RSpec.describe ProcessTurn do
     subject
   end
 
-  it 'creates new orders' do
+  xit 'creates new orders' do
     unit
 
     expect { subject }.to change(HoldOrder, :count).from(0).to(1)

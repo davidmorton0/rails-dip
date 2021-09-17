@@ -7,5 +7,6 @@ FactoryBot.define do
     season { 'Spring' }
     player { build(:player) }
     unit_type { 'Army' }
+    turn { build(:turn) }
   end
 end
