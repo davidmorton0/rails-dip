@@ -5,16 +5,18 @@ require 'rails_helper'
 RSpec.describe CheckWinterOrders do
   subject { described_class.new(game: game) }
 
-  let(:build_order) { create(:build_order, origin_province: origin_province, player: player, year: 1902) }
-  let(:past_build_order) { create(:build_order, origin_province: origin_province, player: player, year: 1901) }
+  let(:turn) { create(:turn, year: 1902, season: 'Winter', game: game) }
+  let(:previous_turn) { create(:turn, year: 1901, season: 'Winter', game: game) }
+  let(:build_order) { create(:build_order, origin_province: origin_province, player: player, turn: turn) }
+  let(:past_build_order) { create(:build_order, origin_province: origin_province, player: player, turn: previous_turn) }
   let(:origin_province) { create(:province) }
   let(:player) { create(:player, game: game, supply: 1) }
-  let(:game) { create(:game, year: 1902, season: 'Winter') }
+  let(:game) { create(:game) }
 
   context 'when a build order is given', :aggregate_failures do
     before do
-      build_order
       past_build_order
+      build_order
     end
 
     context 'when the order is valid' do
@@ -45,7 +47,7 @@ RSpec.describe CheckWinterOrders do
 
     context 'when more build orders are given than available supply', :aggregate_failures do
       let(:additional_build_order) do
-        create(:build_order, origin_province: create(:province), player: player, season: 'Winter', year: 1902)
+        create(:build_order, origin_province: create(:province), player: player, turn: turn)
       end
 
       let(:orders) { [build_order, build_order_2] }
@@ -66,7 +68,7 @@ RSpec.describe CheckWinterOrders do
 
     context 'when the two build orders are given for the same province', :aggregate_failures do
       let(:additional_build_order) do
-        create(:build_order, origin_province: origin_province, player: player, season: 'Winter', year: 1902)
+        create(:build_order, origin_province: origin_province, player: player, turn: turn)
       end
       let(:player) { create(:player, game: game, supply: 2) }
 

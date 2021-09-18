@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  subject { build(:game, **attributes) }
+  subject { create(:game, **attributes) }
 
   let(:attributes) { {} }
 
@@ -12,23 +12,25 @@ RSpec.describe Game, type: :model do
   it { is_expected.to have_many(:turns) }
 
   describe '#move_to_next_season' do
-    let(:attributes) { { season: season } }
-
     context 'when it is spring' do
-      let(:season) { 'Spring' }
+      let(:turn) { create(:turn, game: subject, season: 'Spring', year: 1901) }
 
       it 'moves to the next season' do
-        expect { subject.move_to_next_season }.to change(subject, :season).to('Autumn').and(not_change(subject, :year))
+        turn
+        expect { subject.move_to_next_season }
+          .to change { subject.turns.last.season }.to('Autumn')
+          .and(not_change { subject.turns.last.year })
       end
     end
 
     context 'when it is winter' do
-      let(:season) { 'Winter' }
+      let(:turn) { create(:turn, game: subject, season: 'Winter', year: 1901) }
 
       it 'moves to the next season' do
+        turn
         expect {
           subject.move_to_next_season
-        }.to change(subject, :season).to('Spring').and(change(subject, :year).by(1))
+        }.to change { subject.turns.last.season }.to('Spring').and(change { subject.turns.last.year }.by(1))
       end
     end
   end
@@ -43,8 +45,8 @@ RSpec.describe Game, type: :model do
 
   describe '#countries_with_players' do
     let(:attributes) { { players: [player1, player2] } }
-    let(:player1) { build_stubbed(:player, country: 'Red') }
-    let(:player2) { build_stubbed(:player, country: 'Blue') }
+    let(:player1) { create(:player, country: 'Red') }
+    let(:player2) { create(:player, country: 'Blue') }
 
     it 'returns the total countries with players for the game' do
       expect(subject.countries_with_players).to eq('Red, Blue')
@@ -53,8 +55,8 @@ RSpec.describe Game, type: :model do
 
   describe '#total_units' do
     let(:attributes) { { players: [player1, player2] } }
-    let(:player1) { build_stubbed(:player, units: [build_stubbed(:unit)]) }
-    let(:player2) { build_stubbed(:player, units: [build_stubbed(:unit), build_stubbed(:unit)]) }
+    let(:player1) { create(:player, units: [create(:unit)]) }
+    let(:player2) { create(:player, units: [create(:unit), create(:unit)]) }
 
     it 'returns the total units for the game' do
       expect(subject.total_units).to eq(3)
@@ -63,8 +65,8 @@ RSpec.describe Game, type: :model do
 
   describe '#map_image' do
     let(:attributes) { { current_map: current_map, variant: variant } }
-    let(:variant) { build_stubbed(:variant, map: map) }
-    let(:map) { build_stubbed(:map, name: 'test') }
+    let(:variant) { create(:variant, map: map) }
+    let(:map) { create(:map, name: 'test') }
 
     context 'when there is no generated map image' do
       let(:current_map) { nil }

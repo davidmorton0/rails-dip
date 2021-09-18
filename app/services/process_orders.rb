@@ -3,7 +3,8 @@
 class ProcessOrders
   def initialize(game:)
     @game = game
-    @orders = MoveOrder.where(player: game.players, year: game.year, season: game.season, success: true)
+    @turn = game.turns.last
+    @orders = MoveOrder.where(turn: turn, success: true)
   end
 
   def call
@@ -16,5 +17,5 @@ class ProcessOrders
 
   private
 
-  attr_reader :game, :orders
+  attr_reader :game, :orders, :turn
 end

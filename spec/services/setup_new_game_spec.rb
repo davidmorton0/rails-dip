@@ -11,13 +11,11 @@ RSpec.describe SetupNewGame do
   let(:countries) { %w[England Russia Italy] }
 
   it 'creates a new game' do
-    expect { subject.call }.to change(Game, :count).by(1)
+    expect { subject.call }.to change(Game, :count).by(1).and(change(Turn, :count).by(1))
+    game = Game.first
 
-    expect(Game.last).to have_attributes(
-      variant: variant,
-      year: starting_year,
-      season: starting_season,
-    )
+    expect(game).to have_attributes(variant: variant)
+    expect(Turn.first).to have_attributes(year: starting_year, season: starting_season, game: game)
   end
 
   it 'creates players' do

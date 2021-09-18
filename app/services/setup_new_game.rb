@@ -6,10 +6,11 @@ class SetupNewGame
   end
 
   def call
-    @game = Game.create(
-      variant: variant,
+    @game = Game.create(variant: variant)
+    Turn.create(
       year: variant.starting_year,
       season: variant.starting_season,
+      game: game,
     )
     create_players
   end

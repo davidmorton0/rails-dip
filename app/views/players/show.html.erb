@@ -12,7 +12,7 @@
     <td>Variant:</td>       <td><%= @game.variant.name %></td>
   </tr>
   <tr>
-    <td>Current Turn:</td>  <td><%= "#{@game.season} #{@game.year}" %></td>
+    <td>Current Turn:</td>  <td><%= "#{@game.current_turn.season} #{@game.current_turn.year}" %></td>
   </tr>
   <tr>
     <td>Country:</td>       <td><%= @player.country %></td>
@@ -43,7 +43,7 @@
 
 <%= form_for @player do |form| %>
   <ul>
-    <%= form.fields_for :move_orders, @orders do |orders_fields| %>
+    <%= form.fields_for :orders, @orders do |orders_fields| %>
       <li>
         <%= orders_fields.label :order_type %>
         <%= orders_fields.text_field :class %>

@@ -8,6 +8,7 @@ RSpec.describe Player, type: :model do
   let(:player) { create(:player) }
   let(:target_province) { create(:province) }
   let(:origin_province) { create(:province) }
+  let(:turn) { create(:turn, season: 'Autumn', year: '1901', game: create(:game)) }
 
   it { is_expected.to belong_to(:game) }
   it { is_expected.to have_many(:orders) }
@@ -21,21 +22,19 @@ RSpec.describe Player, type: :model do
 
   context 'when a move order is assigned' do
     let(:order_details) do
-      { season: 'Autumn',
-        year: '1901',
+      { turn: turn,
         target_province: target_province,
         origin_province: origin_province }
     end
 
-    xit 'assigns a move order' do
+    it 'assigns a move order' do
       expect { subject.assign_move_order(**order_details) }.to change(MoveOrder, :count).by(1)
 
       expect(MoveOrder.last).to have_attributes(
         player: subject,
         target_province: target_province,
         origin_province: origin_province,
-        season: 'Autumn',
-        year: 1901,
+        turn: turn,
       )
     end
   end
@@ -43,19 +42,17 @@ RSpec.describe Player, type: :model do
   context 'when a build order is assigned' do
     let(:order_details) do
       { unit_type: 'Army',
-        season: 'Autumn',
-        year: '1901',
+        turn: turn,
         origin_province: origin_province }
     end
 
-    xit 'creates a build order' do
+    it 'creates a build order' do
       expect { subject.assign_build_order(**order_details) }.to change(BuildOrder, :count).by(1)
 
       expect(BuildOrder.last).to have_attributes(
         player: subject,
         unit_type: 'Army',
-        season: 'Autumn',
-        year: 1901,
+        turn: turn,
         origin_province: origin_province,
       )
     end

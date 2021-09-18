@@ -9,19 +9,19 @@ class Game < ApplicationRecord
   has_many :turns
 
   def move_to_next_season
-    new_year = year
-    new_year += 1 if season == 'Winter'
-    update(season: next_season, year: new_year)
+    new_year = current_turn.year
+    new_year += 1 if current_turn.season == 'Winter'
+    Turn.create(game: self, season: next_season, year: new_year)
   end
 
   def previous_turn_season
-    SEASONS[(SEASONS.index(season) - 1) % 3]
+    SEASONS[(SEASONS.index(current_turn.season) - 1) % 3]
   end
 
   def previous_turn_year
-    return year - 1 if season == 'Spring'
+    return current_turn.year - 1 if current_turn.season == 'Spring'
 
-    year
+    current_turn.year
   end
 
   def country_list
@@ -43,10 +43,14 @@ class Game < ApplicationRecord
     current_map_image
   end
 
+  def current_turn
+    turns.last
+  end
+
   private
 
   def next_season
-    SEASONS[(SEASONS.index(season) + 1) % 3]
+    SEASONS[(SEASONS.index(current_turn.season) + 1) % 3]
   end
 
   def default_map

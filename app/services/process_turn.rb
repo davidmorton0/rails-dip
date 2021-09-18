@@ -23,8 +23,7 @@ class ProcessTurn
       player.units.each do |unit|
         HoldOrder.create(origin_province: unit.province,
                          player: player,
-                         year: game.year,
-                         season: game.season)
+                         turn: game.current_turn)
       end
     end
   end

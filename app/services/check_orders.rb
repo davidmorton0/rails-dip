@@ -3,8 +3,9 @@
 class CheckOrders
   def initialize(game:)
     @game = game
+    @turn = game.turns.last
     @players = Player.where(game: game)
-    @orders = MoveOrder.where(player: players, year: game.year, season: game.season)
+    @orders = MoveOrder.where(turn: turn)
   end
 
   def call
@@ -16,7 +17,7 @@ class CheckOrders
 
   private
 
-  attr_reader :orders, :players, :fail_reason, :game
+  attr_reader :orders, :players, :fail_reason, :game, :turn
 
   def process_initial_order_failures
     orders.each do |order|
@@ -39,7 +40,7 @@ class CheckOrders
     blocked_units = true
     while blocked_units
       blocked_units = false
-      orders_to_check = MoveOrder.where(player: players, year: game.year, season: game.season, success: nil)
+      orders_to_check = MoveOrder.where(turn: turn, success: nil)
       orders_to_check.each do |order|
         blocked_units ||= check_blocked_units(order)
       end
@@ -56,7 +57,7 @@ class CheckOrders
   end
 
   def update_remaining_orders_to_success
-    successful_orders = MoveOrder.where(player: players, year: game.year, season: game.season, success: nil)
+    successful_orders = MoveOrder.where(turn: turn, success: nil)
     successful_orders.each do |order|
       order.update(success: true)
     end

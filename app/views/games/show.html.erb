@@ -15,10 +15,10 @@
     <td>Variant:</td>                 <td><%= @game.variant.name %></td>
   </tr>
   <tr>
-    <td>Game Year:</td>               <td><%= @game.year %></td>
+    <td>Game Year:</td>               <td><%= @game.current_turn.year %></td>
   </tr>
   <tr>
-    <td>Game Season:</td>             <td><%= @game.season %></td>
+    <td>Game Season:</td>             <td><%= @game.current_turn.season %></td>
   </tr>
   <tr>
     <td>Countries:</td>               <td><%= @game.country_list %></td>

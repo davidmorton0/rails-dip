@@ -8,7 +8,7 @@ class CheckWinterOrders
 
   def call
     players.each do |player|
-      @build_orders = BuildOrder.where(player: player, year: game.year)
+      @build_orders = BuildOrder.where(player: player, turn: game.current_turn)
 
       build_orders.each do |order|
         next unless validate_duplicate_order(order, player)
@@ -37,7 +37,7 @@ class CheckWinterOrders
   end
 
   def duplicate_order?(order, player)
-    similar_orders = BuildOrder.where(player: player, year: game.year, origin_province: order.origin_province)
+    similar_orders = BuildOrder.where(player: player, turn: game.current_turn, origin_province: order.origin_province)
     similar_orders.count > 1 && similar_orders.first != order
   end
 
