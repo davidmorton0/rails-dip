@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CheckOrders do
-  subject { described_class.new(game: game).call }
+  subject { described_class.new(turn: turn).call }
 
   let(:game) { create(:game) }
   let(:player) { create(:player, game: game) }

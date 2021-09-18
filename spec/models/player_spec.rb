@@ -3,12 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Player, type: :model do
-  subject { described_class.new(country: 'Turkey', game: build(:game), supply: 3) }
+  subject { described_class.new(country: 'Turkey', game: game, supply: 3) }
 
-  let(:player) { create(:player) }
-  let(:target_province) { create(:province) }
+  let(:turn) { create(:turn, season: 'Autumn', year: '1901', game: game) }
   let(:origin_province) { create(:province) }
-  let(:turn) { create(:turn, season: 'Autumn', year: '1901', game: create(:game)) }
+  let(:target_province) { create(:province) }
+  let(:game) { build(:game) }
+  let(:player) { create(:player) }
 
   it { is_expected.to belong_to(:game) }
   it { is_expected.to have_many(:orders) }
@@ -23,8 +24,8 @@ RSpec.describe Player, type: :model do
   context 'when a move order is assigned' do
     let(:order_details) do
       { turn: turn,
-        target_province: target_province,
-        origin_province: origin_province }
+        origin_province: origin_province,
+        target_province: target_province }
     end
 
     it 'assigns a move order' do
@@ -32,18 +33,18 @@ RSpec.describe Player, type: :model do
 
       expect(MoveOrder.last).to have_attributes(
         player: subject,
-        target_province: target_province,
-        origin_province: origin_province,
         turn: turn,
+        origin_province: origin_province,
+        target_province: target_province,
       )
     end
   end
 
   context 'when a build order is assigned' do
     let(:order_details) do
-      { unit_type: 'Army',
-        turn: turn,
-        origin_province: origin_province }
+      { turn: turn,
+        origin_province: origin_province,
+        unit_type: 'Army' }
     end
 
     it 'creates a build order' do
@@ -51,9 +52,9 @@ RSpec.describe Player, type: :model do
 
       expect(BuildOrder.last).to have_attributes(
         player: subject,
-        unit_type: 'Army',
         turn: turn,
         origin_province: origin_province,
+        unit_type: 'Army',
       )
     end
   end

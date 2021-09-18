@@ -9,22 +9,18 @@ class Player < ApplicationRecord
   def assign_move_order(origin_province:, target_province:, turn:)
     MoveOrder.create(
       player: self,
+      turn: turn,
       origin_province: origin_province,
       target_province: target_province,
-      turn: turn,
     )
   end
 
   def assign_build_order(origin_province:, unit_type:, turn:)
     BuildOrder.create(
       player: self,
-      origin_province: origin_province,
       turn: turn,
+      origin_province: origin_province,
       unit_type: unit_type,
     )
-  end
-
-  def move_orders_attributes=(attributes)
-    # Process the attributes hash
   end
 end

@@ -3,9 +3,8 @@
 class GamesController < ApplicationController
   def show
     @game = Game.find(params['id'])
-    previous_turn = @game.turns.offset(1).last
 
-    @previous_turn_orders = previous_turn ? previous_turn.orders : []
+    @previous_turn_orders = @game.previous_turn ? @game.previous_turn.orders : []
   end
 
   def update

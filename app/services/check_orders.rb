@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class CheckOrders
-  def initialize(game:)
-    @game = game
-    @turn = game.turns.last
-    @players = Player.where(game: game)
-    @orders = MoveOrder.where(turn: turn)
+  def initialize(turn:)
+    @turn = turn
+    @players = Player.where(game: turn.game)
+    @orders = turn.orders
   end
 
   def call
@@ -17,11 +16,13 @@ class CheckOrders
 
   private
 
-  attr_reader :orders, :players, :fail_reason, :game, :turn
+  attr_reader :orders, :players, :fail_reason, :turn
 
   def process_initial_order_failures
     orders.each do |order|
       unit = Unit.find_by(province: order.origin_province, player: players)
+      next unless order.type == 'MoveOrder'
+
       if initial_order_failure?(order: order, unit: unit)
         order.update(success: false, failure_reason: @failure_reason)
       end
@@ -30,6 +31,8 @@ class CheckOrders
 
   def process_initial_order_successes
     orders.where(success: nil).each do |order|
+      next unless order.type == 'MoveOrder'
+
       if initial_order_success?(order: order)
         order.update(success: true)
       end
@@ -73,7 +76,7 @@ class CheckOrders
 
   def initial_order_success?(order:)
     return false if Unit.find_by(province: order.target_province, player: players).present?
-    return false if orders.where(target_province: order.target_province).length > 1
+    return false if orders.count { |ord| ord.target_province == order.target_province } > 1
 
     true
   end

@@ -1,31 +1,16 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
-  SEASONS = %w[Spring Autumn Winter].freeze
-
   belongs_to :variant
   has_many :players
   has_many :units, through: :players
   has_many :turns
 
-  def move_to_next_season
-    new_year = current_turn.year
-    new_year += 1 if current_turn.season == 'Winter'
-    Turn.create(game: self, season: next_season, year: new_year)
-  end
+  delegate :country_list, to: :variant
 
-  def previous_turn_season
-    SEASONS[(SEASONS.index(current_turn.season) - 1) % 3]
-  end
-
-  def previous_turn_year
-    return current_turn.year - 1 if current_turn.season == 'Spring'
-
-    current_turn.year
-  end
-
-  def country_list
-    variant.countries.join(', ')
+  def next_turn
+    next_turn_parameters = current_turn.next_turn
+    Turn.create(game: self, **next_turn_parameters)
   end
 
   def countries_with_players
@@ -47,11 +32,13 @@ class Game < ApplicationRecord
     turns.last
   end
 
-  private
+  def previous_turn
+    return if turns.size <= 1
 
-  def next_season
-    SEASONS[(SEASONS.index(current_turn.season) + 1) % 3]
+    turns.offset(1).last
   end
+
+  private
 
   def default_map
     "#{variant.map.name}.png"

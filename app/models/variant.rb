@@ -5,4 +5,8 @@ class Variant < ApplicationRecord
   has_many :games
 
   validates :name, :countries, :map, :starting_season, :starting_year, presence: true
+
+  def country_list
+    countries.join(', ')
+  end
 end

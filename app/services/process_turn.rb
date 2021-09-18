@@ -6,10 +6,10 @@ class ProcessTurn
   end
 
   def call
-    CheckOrders.new(game: game).call
+    CheckOrders.new(turn: game.current_turn).call
     ProcessOrders.new(game: game).call
 
-    game.move_to_next_season
+    game.next_turn
     create_new_orders
     DrawMap::DrawMap.new(game).call
   end
