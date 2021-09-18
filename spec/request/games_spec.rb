@@ -71,7 +71,7 @@ RSpec.describe 'Games', type: :request, aggregate_failures: true do
         game
 
         process_turn = instance_double(ProcessTurn)
-        expect(ProcessTurn).to receive(:new).with(game).and_return(process_turn)
+        expect(ProcessTurn).to receive(:new).with(turn: turn).and_return(process_turn)
         expect(process_turn).to receive(:call)
 
         put game_path(game)

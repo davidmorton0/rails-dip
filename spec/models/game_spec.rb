@@ -3,16 +3,14 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
   subject { create(:game, **attributes) }
 
+  let(:attributes) { {} }
   let(:player2) { create(:player, country: 'Blue', game: subject) }
   let(:player1) { create(:player, country: 'Red', game: subject) }
-  let(:attributes) { {} }
 
   it { is_expected.to belong_to(:variant) }
-
   it { is_expected.to have_many(:players) }
   it { is_expected.to have_many(:units) }
   it { is_expected.to have_many(:turns) }
-
   it { is_expected.to delegate_method(:country_list).to(:variant) }
 
   describe '#next_turn' do

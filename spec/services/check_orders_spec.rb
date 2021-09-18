@@ -3,18 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe CheckOrders do
-  subject { described_class.new(turn: turn).call }
+  subject do
+    described_class.new(turn: turn).call
+    move_order.reload
+  end
 
   let(:game) { create(:game) }
+  let(:turn) { create(:turn, season: 'Spring', year: 1900, game: game) }
   let(:player) { create(:player, game: game) }
+
   let(:province1) { create(:province) }
-  let(:province2) { create(:province, abbreviation: 'RUH') }
-  let(:unit) { create(:unit, province: province1, player: player) }
+  let(:province2) { create(:province, abbreviation: 'RUH', province_type: province_type) }
+  let(:province_type) { 'Coastal' }
+  let(:province_link) { create(:province_link, province: province1, links_to: province2) }
+
+  let(:unit) { create(:unit, province: province1, player: player, unit_type: 'Army') }
   let(:move_order) do
     create(:move_order, origin_province: province1, target_province: province2, player: player, turn: turn)
   end
-  let(:turn) { create(:turn, season: 'Spring', year: 1900, game: game) }
-  let(:province_link) { create(:province_link, province: province1, links_to: province2) }
 
   before do
     move_order
@@ -24,10 +30,7 @@ RSpec.describe CheckOrders do
 
   context 'when a succesful move order is given' do
     it 'changes the order to success' do
-      expect do
-        subject
-        move_order.reload
-      end.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
+      expect { subject }.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
     end
   end
 
@@ -35,25 +38,16 @@ RSpec.describe CheckOrders do
     let(:province_link) { nil }
 
     it 'changes the order to failed' do
-      expect do
-        subject
-        move_order.reload
-      end.to change(move_order, :success).to(false)
+      expect { subject }.to change(move_order, :success).to(false)
         .and(change(move_order, :failure_reason).to('Target province not adjacent'))
     end
   end
 
   context 'when the target province is water and the unit is an Army' do
-    before { create(:province_link, province: province1, links_to: province2) }
-
-    let(:unit) { create(:unit, province: province1, unit_type: 'Army', player: player) }
-    let(:province2) { create(:province, province_type: 'Water') }
+    let(:province_type) { 'Water' }
 
     it 'changes the order to failed' do
-      expect do
-        subject
-        move_order.reload
-      end.to change(move_order, :success).to(false)
+      expect { subject }.to change(move_order, :success).to(false)
         .and(change(move_order, :failure_reason).to('Army cannot move to Water province'))
     end
   end
@@ -65,10 +59,9 @@ RSpec.describe CheckOrders do
     end
 
     it 'changes the order to failed' do
-      expect do
+      expect {
         subject
-        move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
+      }.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
@@ -79,10 +72,9 @@ RSpec.describe CheckOrders do
     end
 
     it 'changes the order to failed' do
-      expect do
+      expect {
         subject
-        move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
+      }.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
@@ -96,10 +88,9 @@ RSpec.describe CheckOrders do
     end
 
     it 'changes the order to failed' do
-      expect do
+      expect {
         subject
-        move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
+      }.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 
@@ -116,10 +107,7 @@ RSpec.describe CheckOrders do
     end
 
     it 'changes the order to success' do
-      expect do
-        subject
-        move_order.reload
-      end.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
+      expect { subject }.to change(move_order, :success).to(true).and(not_change(move_order, :failure_reason))
     end
   end
 
@@ -136,10 +124,9 @@ RSpec.describe CheckOrders do
     end
 
     it 'changes the order to failed' do
-      expect do
+      expect {
         subject
-        move_order.reload
-      end.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
+      }.to change(move_order, :success).to(false).and(change(move_order, :failure_reason).to('Blocked'))
     end
   end
 end
