@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
-  let(:game) { create(:game, turn) }
-  let(:turn) { { season: 'Autumn', year: 1902 } }
+  let(:game) { create(:game) }
+  let(:turn) { create(:turn, season: 'Autumn', year: 1902, game: game) }
   let(:player) { create(:player, game: game) }
 
   let(:province1) { create(:province, map: game.variant.map, name: 'Province 1') }
@@ -14,12 +14,13 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
 
   let(:unit) { create(:unit, province: province1, player: player) }
   let(:move_order) do
-    create(:move_order, player: player, origin_province: province1, target_province: province2, **turn)
+    create(:move_order, player: player, origin_province: province1, target_province: province2, turn: turn)
   end
 
   describe 'show page' do
     context 'when there is a game with an order' do
       it 'shows a game' do
+        turn
         unit
         move_order
         province_link
@@ -38,6 +39,7 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
 
     context 'when there is a game with no orders' do
       it 'shows a game' do
+        turn
         unit
         province2
         province_link

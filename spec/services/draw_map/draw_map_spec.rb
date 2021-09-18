@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe DrawMap::DrawMap do
-  subject { described_class.new(game).call }
+  subject { described_class.new(game: game).call }
 
   let(:game) { create(:game) }
   let(:unit) { create(:unit, province: build(:province), player: create(:player, game: game)) }

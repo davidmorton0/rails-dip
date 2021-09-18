@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
   def show
     @player = Player.find(params['id'])
     @game = @player.game
-    @orders = MoveOrder.where(player: @player, year: @game.year, season: @game.season).order(:origin_province_id, :id)
+    @orders = MoveOrder.where(turn: @game.current_turn).order(:origin_province_id, :id)
   end
 
   def update

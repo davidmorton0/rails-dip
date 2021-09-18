@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
 class ProcessTurn
-  def initialize(game)
-    @game = game
+  def initialize(turn:)
+    @turn = turn
+    @game = turn.game
   end
 
   def call
-    CheckOrders.new(game: game).call
-    ProcessOrders.new(game: game).call
+    CheckOrders.new(turn: turn).call
+    ProcessOrders.new(turn: turn).call
 
-    game.move_to_next_season
+    game.next_turn
     create_new_orders
-    DrawMap::DrawMap.new(game).call
+    DrawMap::DrawMap.new(game: game).call
   end
 
   private
 
-  attr_reader :game
+  attr_reader :game, :turn
 
   def create_new_orders
     game.players.each do |player|
       player.units.each do |unit|
         HoldOrder.create(origin_province: unit.province,
                          player: player,
-                         year: game.year,
-                         season: game.season)
+                         turn: turn)
       end
     end
   end

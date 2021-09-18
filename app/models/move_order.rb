@@ -3,7 +3,7 @@
 class MoveOrder < Order
   belongs_to :target_province, class_name: 'Province'
 
-  validates :unit_type, presence: false
+  validates :unit_type, absence: true
 
   def description
     if target_province

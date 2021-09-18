@@ -1,19 +1,26 @@
 # frozen_string_literal: true
 
 class RailsDipSeeds
-  def self.call
-    LoadVariant.new(variant_name: 'simple').call
+  def call
     LoadVariant.new(variant_name: 'classic').call
+    LoadVariant.new(variant_name: 'simple').call
+    
+    # Create simple game
+    game = create_game('Simple')
+    Unit.create(unit_type: 'Army', province: game.variant.map.provinces.first, player: game.players.first)
+    Unit.create(unit_type: 'Army', province: Province.third, player: game.players.first)
+    Unit.create(unit_type: 'Army', province: Province.fourth, player: game.players.third)
 
     # Create classic game
-    game = Game.create(year: 1900, variant: Variant.find_by(name: 'Classic'), season: 'Spring')
-    player = Player.create(game: game, country: 'England', supply: 3)
-    Unit.create(unit_type: 'Army', province: Province.fifth, player: player)
+    game = create_game('Classic')
+    Unit.create(unit_type: 'Army', province: game.variant.map.provinces.first, player: game.players.first)
+  end
 
-    # Create simple game
-    game = Game.create(year: 1900, variant: Variant.find_by(name: 'Simple'), season: 'Spring')
-    player = Player.create(game: game, country: 'Yellow', supply: 1)
-    Unit.create(unit_type: 'Army', province: Province.third, player: player)
-    Unit.create(unit_type: 'Army', province: Province.fourth, player: player)
+  private
+
+  def create_game(game_name)
+    variant = Variant.find_by(name: game_name)
+
+    SetupNewGame.new(variant: variant).call
   end
 end

@@ -2,7 +2,7 @@
 
 module DrawMap
   class DrawMap
-    def initialize(game)
+    def initialize(game:)
       @game = game
       @map_image = MiniMagick::Image.open(map_file_location)
     end

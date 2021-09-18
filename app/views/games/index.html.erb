@@ -17,8 +17,8 @@
     <tr>
       <td><%= game.id %></td>
       <td><%= link_to game.variant.name, game_path(game.id) %></td>
-      <td><%= game.season %></td>
-      <td><%= game.year %></td>
+      <td><%= game.current_turn.season %></td>
+      <td><%= game.current_turn.year %></td>
       <td><%= game.players.count %></td>
     </tr>
   <% end %>
