@@ -5,5 +5,6 @@ FactoryBot.define do
     origin_province { build(:province) }
     player { build(:player) }
     turn { build(:turn) }
+    unit { build(:unit) }
   end
 end

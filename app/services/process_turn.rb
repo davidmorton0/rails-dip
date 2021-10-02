@@ -24,7 +24,8 @@ class ProcessTurn
       player.units.each do |unit|
         HoldOrder.create(origin_province: unit.province,
                          player: player,
-                         turn: turn)
+                         turn: turn,
+                         unit: unit)
       end
     end
   end

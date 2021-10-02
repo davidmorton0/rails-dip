@@ -28,7 +28,7 @@ class RailsDipSeeds
   def initialize_orders(game)
     game.players.each do |player|
       player.units.each do |unit|
-        HoldOrder.create(turn: game.current_turn, origin_province: unit.province, player: player)
+        HoldOrder.create(turn: game.current_turn, origin_province: unit.province, player: player, unit: unit)
       end
     end
   end
