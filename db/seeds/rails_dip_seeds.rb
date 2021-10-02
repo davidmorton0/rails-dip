@@ -8,12 +8,13 @@ class RailsDipSeeds
     # Create simple game
     game = create_game('Simple')
     Unit.create(unit_type: 'Army', province: game.variant.map.provinces.first, player: game.players.first)
-    Unit.create(unit_type: 'Army', province: Province.third, player: game.players.first)
-    Unit.create(unit_type: 'Army', province: Province.fourth, player: game.players.third)
+    Unit.create(unit_type: 'Army', province: game.variant.map.provinces.third, player: game.players.first)
+    initialize_orders(game)
 
     # Create classic game
     game = create_game('Classic')
     Unit.create(unit_type: 'Army', province: game.variant.map.provinces.first, player: game.players.first)
+    initialize_orders(game)
   end
 
   private
@@ -22,5 +23,13 @@ class RailsDipSeeds
     variant = Variant.find_by(name: game_name)
 
     SetupNewGame.new(variant: variant).call
+  end
+
+  def initialize_orders(game)
+    game.players.each do |player|
+      player.units.each do |unit|
+        HoldOrder.create(turn: game.current_turn, origin_province: unit.province, player: player)
+      end
+    end
   end
 end

@@ -45,15 +45,9 @@
   <ul>
     <%= form.fields_for :orders, @orders do |orders_fields| %>
       <li>
-        <%= orders_fields.label :order_type %>
-        <%= orders_fields.text_field :class %>
-        <%= orders_fields.label :origin_province %>
-        <%= orders_fields.hidden_field :origin_province_id %>
-        <%= orders_fields.collection_select :origin_province_id, [orders_fields.object.origin_province], :id, :name, options = {}, html_options = { disabled: 'disabled' } %>
-        <%= orders_fields.label :target_province %>
-        <%= orders_fields.collection_select :target_province_id, orders_fields.object.origin_province.adjacent_provinces, :id, :name, include_blank: true %>
+        <%= render partial: orders_fields.object.type.underscore, locals: { orders_fields: orders_fields } %>
       </li>
-    <% end %>
+    <% end %>        
   </ul>
   <%= form.submit "Submit Orders" %>
 <% end %>
