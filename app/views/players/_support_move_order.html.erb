@@ -1,0 +1,6 @@
+<%= orders_fields.label orders_fields.object.origin_province.name %>
+<%= orders_fields.hidden_field :origin_province_id %>
+<%= orders_fields.label 'Support Move' %>
+<%= orders_fields.collection_select :origin_province_id, [orders_fields.object.origin_province], :id, :name, options = {}, html_options = { disabled: 'disabled' } %>
+<%= orders_fields.label 'To' %>
+<%= orders_fields.collection_select :target_province_id, orders_fields.object.origin_province.adjacent_provinces, :id, :name, include_blank: true %>

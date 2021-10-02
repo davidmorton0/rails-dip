@@ -9,7 +9,7 @@ RSpec.describe Player, type: :model do
   let(:origin_province) { create(:province) }
   let(:target_province) { create(:province) }
   let(:game) { build(:game) }
-  let(:player) { create(:player) }
+  let(:unit) { create(:unit) }
 
   it { is_expected.to belong_to(:game) }
   it { is_expected.to have_many(:orders) }
@@ -25,7 +25,8 @@ RSpec.describe Player, type: :model do
     let(:order_details) do
       { turn: turn,
         origin_province: origin_province,
-        target_province: target_province }
+        target_province: target_province,
+        unit: unit }
     end
 
     it 'creates a move order' do
@@ -36,6 +37,7 @@ RSpec.describe Player, type: :model do
         turn: turn,
         origin_province: origin_province,
         target_province: target_province,
+        unit: unit,
       )
     end
   end

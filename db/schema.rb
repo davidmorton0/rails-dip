@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_17_205403) do
+ActiveRecord::Schema.define(version: 2021_10_02_140353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,10 +40,12 @@ ActiveRecord::Schema.define(version: 2021_09_17_205403) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "turn_id", null: false
+    t.bigint "unit_id"
     t.index ["origin_province_id"], name: "index_orders_on_origin_province_id"
     t.index ["player_id"], name: "index_orders_on_player_id"
     t.index ["target_province_id"], name: "index_orders_on_target_province_id"
     t.index ["turn_id"], name: "index_orders_on_turn_id"
+    t.index ["unit_id"], name: "index_orders_on_unit_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -111,6 +113,7 @@ ActiveRecord::Schema.define(version: 2021_09_17_205403) do
   add_foreign_key "orders", "provinces", column: "origin_province_id"
   add_foreign_key "orders", "provinces", column: "target_province_id"
   add_foreign_key "orders", "turns"
+  add_foreign_key "orders", "units"
   add_foreign_key "players", "games"
   add_foreign_key "provinces", "maps"
   add_foreign_key "turns", "games"

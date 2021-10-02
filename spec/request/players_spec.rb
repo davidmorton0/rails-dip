@@ -10,7 +10,7 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
   let(:province1) { create(:province, map: game.variant.map, name: 'Province 1') }
   let(:province2) { create(:province, map: game.variant.map, name: 'Province 2') }
   let(:province3) { create(:province, map: game.variant.map, name: 'Province 3') }
-  let(:province_link) { create(:province_link, province: province1, links_to: province3) }
+  let(:province_link) { create(:province_link, province: province1, links_to: province2) }
 
   let(:unit) { create(:unit, province: province1, player: player) }
   let(:move_order) do
@@ -18,32 +18,14 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
   end
 
   describe 'show page' do
-    context 'when there is a game with an order' do
-      it 'shows a game' do
-        turn
-        unit
-        move_order
-        province_link
-        create(:province_link, province: province1, links_to: province2)
-
-        get game_player_path(game, player)
-        expect(response).to be_successful
-        expect(response.body).to include('Game Info')
-        expect(response.body).to include('Map Info')
-        expect(response.body).to include('Orders')
-        expect(response.body).to include(province1.name)
-        expect(response.body).to include(province2.name)
-        expect(response.body).to include(province3.name)
-      end
+    before do
+      turn
+      unit
+      province_link
     end
 
-    context 'when there is a game with no orders' do
+    context 'when there is a game with no orders', :aggregate_failures do
       it 'shows a game' do
-        turn
-        unit
-        province2
-        province_link
-
         get game_player_path(game, player)
         expect(response).to be_successful
         expect(response.body).to include('Game Info')
@@ -52,6 +34,32 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
         expect(response.body).not_to include(province1.name)
         expect(response.body).not_to include(province2.name)
         expect(response.body).not_to include(province3.name)
+      end
+    end
+
+    context 'when there is a game with a move order', :aggregate_failures do
+      it 'shows the game and order' do
+        move_order
+
+        get game_player_path(game, player)
+        expect(response).to be_successful
+        expect(response.body).to include(province1.name)
+        expect(response.body).to include(province2.name)
+        expect(response.body).not_to include(province3.name)
+      end
+
+      context 'when there is a game with a hold order', :aggregate_failures do
+        let(:hold_order) { create(:hold_order, player: player, origin_province: province1, turn: turn) }
+
+        it 'shows the game and order' do
+          hold_order
+
+          get game_player_path(game, player)
+          expect(response).to be_successful
+          expect(response.body).to include(province1.name)
+          expect(response.body).not_to include(province2.name)
+          expect(response.body).not_to include(province3.name)
+        end
       end
     end
   end
@@ -76,7 +84,7 @@ RSpec.describe 'Game Players', type: :request, aggregate_failures: true do
       get game_player_path(game, player)
     end
 
-    it 'updates orders a game' do
+    it 'updates orders a game', :aggregate_failures do
       expect do
         patch game_player_path(game, player), params: params
         move_order.reload

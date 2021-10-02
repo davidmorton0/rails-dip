@@ -6,12 +6,13 @@ class Player < ApplicationRecord
 
   validates :country, :game, :supply, presence: true
 
-  def assign_move_order(origin_province:, target_province:, turn:)
+  def assign_move_order(origin_province:, target_province:, turn:, unit:)
     MoveOrder.create(
       player: self,
       turn: turn,
       origin_province: origin_province,
       target_province: target_province,
+      unit: unit,
     )
   end
 

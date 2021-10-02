@@ -3,6 +3,7 @@
 class Unit < ApplicationRecord
   belongs_to :province
   belongs_to :player
+  has_many :orders
 
   validates :province, :unit_type, presence: true
 
