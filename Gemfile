@@ -21,6 +21,7 @@ gem 'bootstrap-sass'
 group :test do
   gem 'shoulda-matchers', '~> 4.0'
   gem 'rails-controller-testing'
+  gem 'rspec_junit_formatter'
   gem 'simplecov', '~> 0.21', require: false
 end
 

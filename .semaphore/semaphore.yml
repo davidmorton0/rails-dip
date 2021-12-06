@@ -1,5 +1,5 @@
 version: v1.0
-name: Test MyApp
+name: Rails Dip
 agent:
   machine:
     type: e1-standard-2
@@ -25,3 +25,4 @@ blocks:
             - yarn install --pure-lockfile
             - 'bundle exec rake db:create'
             - bundle exec rspec
+
