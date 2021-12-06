@@ -6,7 +6,6 @@ agent:
     os_image: ubuntu1804
 blocks:
   - name: Setup
-    dependencies: []
     task:
       env_vars:
         - name: DATABASE_URL
@@ -23,68 +22,7 @@ blocks:
             - cache restore
             - bundle install --deployment --path vendor/bundle
             - cache store
-  - name: Code scanning
-    dependencies:
-      - Setup
-    task:
-      jobs:
-        - name: check style + security
-          commands:
-            - sem-service start postgres 11
-            - sem-version ruby 3.0.1
-            - sem-version node 16.3.0
-            - checkout
-            - cache restore
-            - bundle install --deployment --path vendor/bundle
-            - cache store
-            - bundle exec rubocop
-            - bundle exec brakeman
-  - name: Unit tests
-    dependencies:
-      - Code scanning
-    task:
-      prologue:
-        commands:
-          - sem-service start postgres 11
-          - sem-version ruby 3.0.1
-          - sem-version node 16.3.0
-          - checkout
-          - cache restore
-          - bundle install --deployment --path vendor/bundle
-          - cache store
-          - sem-service start postgres
-          - 'bundle exec rake db:setup'
-      jobs:
-        - name: RSpec - model tests
-          commands:
-            - bundle exec rspec spec/models
-        - name: RSpec - controller tests
-          commands:
-            - bundle exec rspec spec/controllers
-      epilogue:
-        always:
-          commands:
-            - test-results publish junit.xml
-  - name: Integration tests
-    dependencies:
-      - Unit tests
-    task:
-      prologue:
-        commands:
-          - sem-service start postgres 11
-          - sem-version ruby 3.0.1
-          - sem-version node 16.3.0
-          - checkout
-          - cache restore
-          - bundle install --deployment --path vendor/bundle
-          - cache store
-      jobs:
-        - name: RSpec - feature specs
-          commands:
-            - sem-service start postgres
-            - 'bundle exec rake db:setup'
-            - bundle exec rspec spec/features
-      epilogue:
-        always:
-          commands:
-            - test-results publish junit.xml
+            - yarn install --pure-lockfile
+            - 'bundle exec rake db:create'
+            - bundle exec rspec
+
