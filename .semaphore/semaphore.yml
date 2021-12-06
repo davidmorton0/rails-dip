@@ -1,30 +1,80 @@
 version: v1.0
-name: Test MyApp
+name: Rails Dip
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Test
+  - name: Setup
+    dependencies: []
     task:
-      env_vars:
-        - name: DATABASE_URL
-          value: 'postgresql://postgres:@0.0.0.0:5432/myapp_test'
-        - name: RAILS_ENV
-          value: test
       jobs:
-        - name: Test
+        - name: bundle
           commands:
+            - sem-version ruby 2.7.3
+            - sem-version node 14.16.1
             - checkout
-            - sem-service start postgres 11
-            - sem-version ruby 3.0.1
-            - sem-version node 16.3.0
             - cache restore
-            - bundle install --deployment --path vendor/bundle
+            - bundle install
             - cache store
-            - yarn install --pure-lockfile
-            - 'bundle exec rake db:create'
-            - bundle exec rspec
+  - name: Code scanning
+    dependencies:
+      - Setup
+    task:
+      jobs:
+        - name: check style + security
+          commands:
+            - sem-version ruby 2.7.3
+            - sem-version node 14.16.1
+            - checkout
+            - cache restore
+            - bundle install
+            - cache store
+            - bundle exec rubocop
+            - bundle exec brakeman
+  - name: Unit tests
+    dependencies:
+      - Code scanning
+    task:
+      prologue:
+        commands:
+          - sem-version ruby 2.7.3
+          - sem-version node 14.16.1
+          - checkout
+          - cache restore
+          - bundle install
+          - cache store
+          - sem-service start postgres
+          - 'bundle exec rake db:setup'
+      jobs:
+        - name: RSpec - model tests
+          commands:
+            - bundle exec rspec spec/models
+        - name: RSpec - controller tests
+          commands:
+            - bundle exec rspec spec/controllers
+      epilogue:
+        always:
+          commands:
+            - test-results publish junit.xml
+  - name: Integration tests
+    dependencies:
+      - Unit tests
+    task:
+      prologue:
+        commands:
+          - sem-version ruby 2.7.3
+          - sem-version node 14.16.1
+          - checkout
+          - cache restore
+          - bundle install
+          - cache store
+      jobs:
+        - name: RSpec - feature specs
+          commands:
+            - sem-service start postgres
+            - 'bundle exec rake db:setup'
+            - bundle exec rspec spec/features
       epilogue:
         always:
           commands:
