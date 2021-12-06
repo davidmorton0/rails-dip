@@ -11,11 +11,12 @@ blocks:
       jobs:
         - name: bundle
           commands:
-            - sem-version ruby 2.7.3
-            - sem-version node 14.16.1
+            - sem-service start postgres 11
+            - sem-version ruby 3.0.1
+            - sem-version node 16.3.0
             - checkout
             - cache restore
-            - bundle install
+            - bundle install --deployment --path vendor/bundle
             - cache store
   - name: Code scanning
     dependencies:
@@ -24,11 +25,12 @@ blocks:
       jobs:
         - name: check style + security
           commands:
-            - sem-version ruby 2.7.3
-            - sem-version node 14.16.1
+            - sem-service start postgres 11
+            - sem-version ruby 3.0.1
+            - sem-version node 16.3.0
             - checkout
             - cache restore
-            - bundle install
+            - bundle install --deployment --path vendor/bundle
             - cache store
             - bundle exec rubocop
             - bundle exec brakeman
@@ -38,11 +40,12 @@ blocks:
     task:
       prologue:
         commands:
-          - sem-version ruby 2.7.3
-          - sem-version node 14.16.1
+          - sem-service start postgres 11
+          - sem-version ruby 3.0.1
+          - sem-version node 16.3.0
           - checkout
           - cache restore
-          - bundle install
+          - bundle install --deployment --path vendor/bundle
           - cache store
           - sem-service start postgres
           - 'bundle exec rake db:setup'
@@ -63,11 +66,12 @@ blocks:
     task:
       prologue:
         commands:
-          - sem-version ruby 2.7.3
-          - sem-version node 14.16.1
+          - sem-service start postgres 11
+          - sem-version ruby 3.0.1
+          - sem-version node 16.3.0
           - checkout
           - cache restore
-          - bundle install
+          - bundle install --deployment --path vendor/bundle
           - cache store
       jobs:
         - name: RSpec - feature specs
