@@ -1,0 +1,5 @@
+global_job_config:
+  epilogue:
+    always:
+      commands:
+         - '[[ -f report.xml ]] && test-results publish report.xml'
